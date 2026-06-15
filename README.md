@@ -1,12 +1,12 @@
 # Sistem Informasi Manajemen Parkir Digital (CodeIgniter 4)
 
 Setup Project CodeIgniter 4 selesai
-✔ Setup database & migration selesai
-✔ Sistem autentikasi (Login & Register) selesai
-✔ Multi role user (Admin & Petugas) sudah diterapkan
-✔ Session login berhasil dibuat
-✔ Redirect berdasarkan role user sudah berjalan
-✔ Dashboard Admin & Petugas sudah tersedia (basic UI)
+  Setup database & migration selesai
+  Sistem autentikasi (Login & Register) selesai
+  Multi role user (Admin & Petugas) sudah diterapkan
+  Session login berhasil dibuat
+  Redirect berdasarkan role user sudah berjalan
+  Dashboard Admin & Petugas sudah tersedia (basic UI)
 
 ## Deskripsi Project
 
@@ -42,7 +42,7 @@ Sistem ini digunakan untuk:
 
 ---
 
-## CARA MENJALANKAN PROJECT (WAJIB IKUTI URUT)
+## CARA MENJALANKAN PROJECT 
 
 ### 1. Clone Repository
 ```bash
