@@ -1,69 +1,78 @@
-# CodeIgniter 4 Application Starter
+# Sistem Informasi Manajemen Parkir Digital (CodeIgniter 4)
 
-## What is CodeIgniter?
+Setup Project CodeIgniter 4 selesai
+✔ Setup database & migration selesai
+✔ Sistem autentikasi (Login & Register) selesai
+✔ Multi role user (Admin & Petugas) sudah diterapkan
+✔ Session login berhasil dibuat
+✔ Redirect berdasarkan role user sudah berjalan
+✔ Dashboard Admin & Petugas sudah tersedia (basic UI)
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+## Deskripsi Project
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+Aplikasi ini merupakan Sistem Informasi Manajemen Penitipan Kendaraan dan Parkir Digital berbasis web menggunakan **CodeIgniter 4** dan **MySQL**.
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+Sistem ini digunakan untuk:
+- Login & Register user
+- Role-based access (Admin & Petugas)
+- Dashboard sesuai role
+- Manajemen data parkir (pengembangan lanjutan)
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+---
 
-## Installation & updates
+## Anggota Kelompok
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+1. Tegar Ananda  
+2. Rani Salma Hakim  
+3. Zahra Syafa Salsabila  
+4. Habibah  
+5. M. Vasco Al Ghazi  
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+---
 
-## Setup
+## Teknologi yang Digunakan
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+- PHP 8.2+
+- CodeIgniter 4
+- MySQL / MariaDB
+- Bootstrap 5
+- SB Admin 2 Template
+- JavaScript (Chart.js)
+- Git & GitHub
 
-## Important Change with index.php
+---
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+## CARA MENJALANKAN PROJECT (WAJIB IKUTI URUT)
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+### 1. Clone Repository
+```bash
+git clone https://github.com/username/parkir-digital.git
+cd parkir-digital
 
-**Please** read the user guide for a better explanation of how CI4 works!
+### 2. Install Dependency
+```bash
+composer install
 
-## Repository Management
+### 3. Setup Environment
+```bash
+cp env .env
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+### 4. Konfigurasi Database di .env
+```bash
+database.default.hostname = localhost
+database.default.database = parkir_digital
+database.default.username = root
+database.default.password =
+database.default.DBDriver = MySQLi
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+### 5. Buat Database
+```bash
+CREATE DATABASE parkir_digital;
 
-## Server Requirements
+### 6. Jalankan Migration
+```bash
+php spark migrate
 
-PHP version 8.2 or higher is required, with the following extensions installed:
-
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
-
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - The end of life date for PHP 8.1 was December 31, 2025.
-> - If you are still using below PHP 8.2, you should upgrade immediately.
-> - The end of life date for PHP 8.2 will be December 31, 2026.
-
-Additionally, make sure that the following extensions are enabled in your PHP:
-
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+### 8. Jalankan Project
+```bash
+php spark serve
