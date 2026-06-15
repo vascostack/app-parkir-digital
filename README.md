@@ -1,5 +1,6 @@
 # Sistem Informasi Manajemen Parkir Digital (CodeIgniter 4)
 
+## Progres
 Setup Project CodeIgniter 4 selesai
   Setup database & migration selesai
   Sistem autentikasi (Login & Register) selesai
@@ -7,16 +8,6 @@ Setup Project CodeIgniter 4 selesai
   Session login berhasil dibuat
   Redirect berdasarkan role user sudah berjalan
   Dashboard Admin & Petugas sudah tersedia (basic UI)
-
-## Deskripsi Project
-
-Aplikasi ini merupakan Sistem Informasi Manajemen Penitipan Kendaraan dan Parkir Digital berbasis web menggunakan **CodeIgniter 4** dan **MySQL**.
-
-Sistem ini digunakan untuk:
-- Login & Register user
-- Role-based access (Admin & Petugas)
-- Dashboard sesuai role
-- Manajemen data parkir (pengembangan lanjutan)
 
 ---
 
