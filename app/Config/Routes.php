@@ -13,3 +13,5 @@ $routes->post('/register', 'Auth::store');
 $routes->post('login', 'Auth::attemptLogin');
 $routes->get('parkir/masuk', 'ParkirController::masuk');
 $routes->post('parkir/proses_masuk', 'ParkirController::proses_masuk');
+$routes->get('parkir/keluar', 'ParkirController::keluar');
+$routes->post('parkir/proses_keluar', 'ParkirController::proses_keluar');
