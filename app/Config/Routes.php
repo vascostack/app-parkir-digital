@@ -11,3 +11,5 @@ $routes->get('/petugas/dashboard', 'Petugas::dashboard');
 
 $routes->post('/register', 'Auth::store');
 $routes->post('login', 'Auth::attemptLogin');
+$routes->get('parkir/masuk', 'ParkirController::masuk');
+$routes->post('parkir/proses_masuk', 'ParkirController::proses_masuk');
