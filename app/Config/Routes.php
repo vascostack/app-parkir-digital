@@ -3,13 +3,14 @@
 use CodeIgniter\Router\RouteCollection;
 
 /** @var RouteCollection $routes */
-$routes->get('/', 'Home::index');
-$routes->get('login', 'Auth::login');
-$routes->get('register', 'Auth::register');
-$routes->get('/admin/dashboard', 'Admin::dashboard');
-$routes->get('/petugas/dashboard', 'Petugas::dashboard');
-
-$routes->post('/register', 'Auth::store');
-$routes->post('login', 'Auth::attemptLogin');
-$routes->get('parkir/masuk', 'ParkirController::masuk');
-$routes->post('parkir/proses_masuk', 'ParkirController::proses_masuk');
+$routes->group('user', function ($routes) {
+    // Akses ke http://localhost:8080/user otomatis ke dashboard
+    $routes->get('/', 'UserController::dashboard'); 
+    
+    // Rute untuk masing-masing halaman sesuai file di folder user
+    $routes->get('dashboard', 'UserController::dashboard'); // /user/dashboard
+    $routes->get('booking', 'UserController::booking');     // /user/booking
+    $routes->get('vehicles', 'UserController::vehicles');   // /user/vehicles
+    $routes->get('history', 'UserController::history');     // /user/history
+    $routes->get('profile', 'UserController::profile');     // /user/profile
+});
