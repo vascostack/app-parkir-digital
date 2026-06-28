@@ -3,7 +3,6 @@
 use CodeIgniter\Router\RouteCollection;
 
 /** @var RouteCollection $routes */
-<<<<<<< HEAD
 $routes->group('user', function ($routes) {
     // Akses ke http://localhost:8080/user otomatis ke dashboard
     $routes->get('/', 'UserController::dashboard'); 
