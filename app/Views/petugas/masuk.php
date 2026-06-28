@@ -106,7 +106,7 @@
                                     <i class="bi bi-123 me-1"></i> Plat Nomor Kendaraan <span class="text-danger">*</span>
                                 </label>
                                 <input type="text" name="no_polisi" class="form-control form-control-lg" placeholder="Contoh: BE 8380 XX" required style="text-transform: uppercase;">
-                                <small class="text-muted"><i class="bi bi-info-circle me-1"></i> Masukkan plat nomor kendaraan.</small>
+                                <small class="text-muted"><i class="bi bi-info-circle me-1"></i> Masukkan plat nomor kendaraan tanpa spasi.</small>
                             </div>
 
                             <div class="mb-4">
@@ -139,6 +139,21 @@
 
                             <div class="row mb-4">
                                 <div class="col-md-6">
+                                    <label class="form-label fw-semibold text-navy-dark">
+                                        <i class="bi bi-tag me-1"></i> Merek Kendaraan <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" name="merek" class="form-control form-control-lg" placeholder="Contoh: Honda / Toyota" required>
+                                </div>
+                                <div class="col-md-6 mt-3 mt-md-0">
+                                    <label class="form-label fw-semibold text-navy-dark">
+                                        <i class="bi bi-palette me-1"></i> Warna Kendaraan <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" name="warna" class="form-control form-control-lg" placeholder="Contoh: Hitam / Putih" required>
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-6">
                                     <label class="form-label fw-semibold text-navy-dark"><i class="bi bi-geo-alt me-1"></i> Lokasi Parkir</label>
                                     <select class="form-select form-select-lg" name="id_lokasi">
                                         <option value="" disabled selected>-- Pilih Lokasi --</option>
@@ -161,6 +176,7 @@
                                     </select>
                                 </div>
                             </div>
+
                             <div class="d-flex gap-2">
                                 <button type="submit" class="btn btn-navy-custom btn-lg flex-grow-1">
                                     <i class="bi bi-save me-2"></i> Simpan Data Masuk
@@ -210,6 +226,7 @@
                 <ul class="list-unstyled mb-0 text-muted small" style="line-height: 2;">
                     <li><i class="bi bi-check2 text-navy-dark me-2 fw-bold"></i> Pastikan plat nomor terbaca jelas</li>
                     <li><i class="bi bi-check2 text-navy-dark me-2 fw-bold"></i> Pilih jenis kendaraan sesuai kategori</li>
+                    <li><i class="bi bi-check2 text-navy-dark me-2 fw-bold"></i> Merek dan warna wajib diisi sesuai kondisi fisik</li>
                     <li><i class="bi bi-check2 text-navy-dark me-2 fw-bold"></i> Waktu masuk tercatat otomatis</li>
                     <li class="text-danger mt-2"><i class="bi bi-exclamation-triangle-fill me-2"></i> Kendaraan yang belum keluar tidak bisa masuk lagi.</li>
                 </ul>
