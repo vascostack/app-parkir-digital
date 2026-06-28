@@ -105,8 +105,8 @@
                                 <label class="form-label fw-semibold text-navy-dark">
                                     <i class="bi bi-123 me-1"></i> Plat Nomor Kendaraan <span class="text-danger">*</span>
                                 </label>
-                                <input type="text" name="no_polisi" class="form-control form-control-lg" placeholder="Contoh: B 8380" required style="text-transform: uppercase;">
-                                <small class="text-muted"><i class="bi bi-info-circle me-1"></i> Masukkan plat nomor kendaraan tanpa tanda baca.</small>
+                                <input type="text" name="no_polisi" class="form-control form-control-lg" placeholder="Contoh: BE 8380 XX" required style="text-transform: uppercase;">
+                                <small class="text-muted"><i class="bi bi-info-circle me-1"></i> Masukkan plat nomor kendaraan.</small>
                             </div>
 
                             <div class="mb-4">
@@ -139,21 +139,28 @@
 
                             <div class="row mb-4">
                                 <div class="col-md-6">
-                                    <label class="form-label fw-semibold text-navy-dark"><i class="bi bi-geo-alt me-1"></i> Lokasi Parkir <span class="text-danger">*</span></label>
+                                    <label class="form-label fw-semibold text-navy-dark"><i class="bi bi-geo-alt me-1"></i> Lokasi Parkir</label>
                                     <select class="form-select form-select-lg" name="id_lokasi">
-                                        <option value="1">Gedung Parkir Utama</option>
-                                        <option value="2">Area Parkir Terbuka</option>
+                                        <option value="" disabled selected>-- Pilih Lokasi --</option>
+                                        <?php if(isset($lokasi)): ?>
+                                            <?php foreach($lokasi as $l) : ?>
+                                                <option value="<?= $l['id_lokasi'] ?>"><?= esc($l['nama_lokasi']) ?></option>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
                                     </select>
                                 </div>
                                 <div class="col-md-6 mt-3 mt-md-0">
                                     <label class="form-label fw-semibold text-navy-dark"><i class="bi bi-grid-3x3 me-1"></i> Kode Slot <span class="text-danger">*</span></label>
-                                    <select class="form-select form-select-lg" name="id_slot">
-                                        <option value="B01">B01 (Lantai 2)</option>
-                                        <option value="B02">B02 (Lantai 2)</option>
+                                    <select class="form-select form-select-lg" name="id_slot" required>
+                                        <option value="" disabled selected>-- Pilih Slot Parkir --</option>
+                                        <?php if(isset($slot)): ?>
+                                            <?php foreach($slot as $s) : ?>
+                                                <option value="<?= $s['id_slot'] ?>"><?= esc($s['kode_slot']) ?> (<?= esc($s['jenis_slot']) ?>)</option>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
                                     </select>
                                 </div>
                             </div>
-
                             <div class="d-flex gap-2">
                                 <button type="submit" class="btn btn-navy-custom btn-lg flex-grow-1">
                                     <i class="bi bi-save me-2"></i> Simpan Data Masuk
