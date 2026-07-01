@@ -73,6 +73,19 @@
     <p class="text-muted">Input data kendaraan yang masuk area parkir</p>
 </div>
 
+<?php if (session()->getFlashdata('pesan')) : ?>
+    <div class="alert alert-success alert-dismissible fade show shadow-sm border-0" role="alert">
+        <i class="bi bi-check-circle-fill me-2"></i><?= session()->getFlashdata('pesan') ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<?php endif; ?>
+
+<?php if (session()->getFlashdata('error')) : ?>
+    <div class="alert alert-danger alert-dismissible fade show shadow-sm border-0" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i><?= session()->getFlashdata('error') ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<?php endif; ?>
 <div class="row g-4">
     <div class="col-lg-8">
         
@@ -111,7 +124,7 @@
 
                             <div class="mb-4">
                                 <label class="form-label fw-semibold text-navy-dark">
-                                    <i class="bi bi-bicycle me-1"></i> Jenis Kendaraan <span class="text-danger">*</span>
+                                    </i> Jenis Kendaraan <span class="text-danger">*</span>
                                 </label>
                                 <div class="row g-3">
                                     <div class="col-6">
@@ -166,11 +179,13 @@
                                 </div>
                                 <div class="col-md-6 mt-3 mt-md-0">
                                     <label class="form-label fw-semibold text-navy-dark"><i class="bi bi-grid-3x3 me-1"></i> Kode Slot <span class="text-danger">*</span></label>
-                                    <select class="form-select form-select-lg" name="id_slot" required>
+                                    <select class="form-select form-select-lg" name="id_slot" id="id_slot" required>
                                         <option value="" disabled selected>-- Pilih Slot Parkir --</option>
                                         <?php if(isset($slot)): ?>
                                             <?php foreach($slot as $s) : ?>
-                                                <option value="<?= $s['id_slot'] ?>"><?= esc($s['kode_slot']) ?> (<?= esc($s['jenis_slot']) ?>)</option>
+                                                <option value="<?= $s['id_slot'] ?>" data-jenis="<?= esc($s['jenis_slot']) ?>">
+                                                    <?= esc($s['kode_slot']) ?> (<?= esc($s['jenis_slot']) ?>)
+                                                </option>
                                             <?php endforeach; ?>
                                         <?php endif; ?>
                                     </select>
@@ -267,4 +282,43 @@
 
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const radioJenis = document.querySelectorAll('input[name="jenis"]');
+    const selectSlot = document.getElementById('id_slot');
+    const optionsSlot = selectSlot.querySelectorAll('option:not([disabled])'); 
+
+    // Fungsi untuk menyaring opsi slot
+    function filterSlots(jenisTerpilih) {
+        // Reset pilihan dropdown jadi kosong tiap kali ganti kendaraan
+        selectSlot.value = "";
+        
+        optionsSlot.forEach(option => {
+            // Cek apakah data-jenis dari slot sama dengan radio yang dipilih
+            if (option.getAttribute('data-jenis').toLowerCase() === jenisTerpilih.toLowerCase()) {
+                option.hidden = false;
+                option.disabled = false;
+            } else {
+                option.hidden = true;
+                option.disabled = true;
+            }
+        });
+    }
+
+    // Sembunyikan semua slot dulu sebelum diklik apa-apa
+    optionsSlot.forEach(option => {
+        option.hidden = true;
+        option.disabled = true;
+    });
+
+    // Tambahkan event listener saat gambar motor/mobil diklik
+    radioJenis.forEach(radio => {
+        radio.addEventListener('change', function() {
+            filterSlots(this.value);
+        });
+    });
+});
+</script>
+
 <?= $this->endSection() ?>

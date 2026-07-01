@@ -4,7 +4,9 @@
 <section id="tab-dashboard" class="dashboard-section animate-fade">
   <div class="d-flex align-items-center justify-content-between mb-4">
     <div>
-      <h2 class="fw-bold text-navy-dark mb-1">Halo, <span id="welcome-officer-name">Petugas Jaga</span>!</h2>
+      <h2 class="fw-bold text-navy-dark mb-1">
+        Halo, <span class="text-capitalize"><?= session()->get('nama') ?? session()->get('username') ?? 'Petugas' ?></span>!
+      </h2>
       <p class="text-muted mb-0">Selamat bertugas di Portal Layanan Parkir Premium.</p>
     </div>
     <div class="d-flex gap-2">
@@ -22,7 +24,7 @@
       <div class="premium-card p-4 d-flex align-items-center justify-content-between h-100">
         <div>
           <span class="text-muted text-uppercase d-block mb-1" style="font-size: 11px; font-weight: 600; letter-spacing: 0.5px;">Kendaraan di Lokasi</span>
-          <h2 class="fw-bold text-navy-dark mb-0 font-poppins" id="stat-parked-vehicles">45</h2>
+          <h2 class="fw-bold text-navy-dark mb-0 font-poppins"><?= $parked_count ?? 0 ?></h2>
         </div>
         <div class="p-3 rounded-4 bg-primary bg-opacity-10 text-primary">
           <i class="bi bi-p-circle fs-3"></i>
@@ -34,7 +36,7 @@
       <div class="premium-card p-4 d-flex align-items-center justify-content-between h-100">
         <div>
           <span class="text-muted text-uppercase d-block mb-1" style="font-size: 11px; font-weight: 600; letter-spacing: 0.5px;">Transaksi Hari Ini</span>
-          <h2 class="fw-bold text-navy-dark mb-0 font-poppins" id="stat-today-transactions">128</h2>
+          <h2 class="fw-bold text-navy-dark mb-0 font-poppins"><?= $today_transactions ?? 0 ?></h2>
         </div>
         <div class="p-3 rounded-4 bg-success bg-opacity-10 text-success">
           <i class="bi bi-check2-square fs-3"></i>
@@ -45,8 +47,8 @@
     <div class="col-md-4">
       <div class="premium-card p-4 d-flex align-items-center justify-content-between h-100">
         <div>
-          <span class="text-muted text-uppercase d-block mb-1" style="font-size: 11px; font-weight: 600; letter-spacing: 0.5px;">Pendapatan Shift Ini</span>
-          <h2 class="fw-bold text-navy-dark mb-0 font-poppins" id="stat-today-income">Rp 250K</h2>
+          <span class="text-muted text-uppercase d-block mb-1" style="font-size: 11px; font-weight: 600; letter-spacing: 0.5px;">Pendapatan Hari Ini</span>
+          <h2 class="fw-bold text-navy-dark mb-0 font-poppins">Rp <?= number_format($today_income ?? 0, 0, ',', '.') ?></h2>
         </div>
         <div class="p-3 rounded-4 bg-warning bg-opacity-10 text-warning">
           <i class="bi bi-cash-coin fs-3"></i>
@@ -64,7 +66,7 @@
     </div>
     
     <div class="table-responsive">
-      <table class="table table-hover align-middle mb-0" id="recentTransactionsTable">
+      <table class="table table-hover align-middle mb-0">
         <thead class="table-light">
           <tr>
             <th class="border-0">ID Transaksi</th>
@@ -75,23 +77,29 @@
             <th class="border-0">Status</th>
           </tr>
         </thead>
-        <tbody id="recentTransactionsBody">
-          <tr>
-            <td>#TRX-001</td>
-            <td class="fw-bold">BE 1234 XX</td>
-            <td>08:15 WIB</td>
-            <td>10:30 WIB</td>
-            <td>Rp 5.000</td>
-            <td><span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-2 py-1">Selesai</span></td>
-          </tr>
-          <tr>
-            <td>#TRX-002</td>
-            <td class="fw-bold">B 9999 YY</td>
-            <td>09:00 WIB</td>
-            <td>-</td>
-            <td>-</td>
-            <td><span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 px-2 py-1">Di Lokasi</span></td>
-          </tr>
+        <tbody>
+          <?php if (!empty($recent_transactions)) : ?>
+            <?php foreach ($recent_transactions as $row) : ?>
+              <tr>
+                <td>#TRX-<?= $row['id_transaksi'] ?></td>
+                <td class="fw-bold"><?= $row['no_polisi'] ?? '-' ?></td>
+                <td><?= date('H:i', strtotime($row['waktu_masuk'])) ?> WIB</td>
+                <td><?= $row['waktu_keluar'] ? date('H:i', strtotime($row['waktu_keluar'])) . ' WIB' : '-' ?></td>
+                <td><?= $row['total_biaya'] > 0 ? 'Rp ' . number_format($row['total_biaya'], 0, ',', '.') : '-' ?></td>
+                <td>
+                  <?php if ($row['status_transaksi'] == 'selesai') : ?>
+                    <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-2 py-1">Selesai</span>
+                  <?php else : ?>
+                    <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 px-2 py-1">Di Lokasi</span>
+                  <?php endif; ?>
+                </td>
+              </tr>
+            <?php endforeach; ?>
+          <?php else : ?>
+            <tr>
+              <td colspan="6" class="text-center text-muted">Belum ada transaksi hari ini.</td>
+            </tr>
+          <?php endif; ?>
         </tbody>
       </table>
     </div>

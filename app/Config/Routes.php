@@ -31,6 +31,7 @@ $routes->group('petugas', ['filter' => 'roleFilter:petugas'], function($routes) 
     $routes->post('cek_keluar', 'Petugas::cek_keluar');
     $routes->get('konfirmasi_keluar/(:num)', 'Petugas::konfirmasi_keluar/$1'); 
     
+    $routes->post('konfirmasi_keluar', 'Petugas::konfirmasi_keluar');
     $routes->get('transaksi', 'Petugas::transaksi');
 });
 
