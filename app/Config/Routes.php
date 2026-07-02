@@ -41,9 +41,11 @@ $routes->group('user', ['filter' => 'roleFilter:user'], function($routes) {
     $routes->get('/', 'User\Dashboard::index'); 
     $routes->get('dashboard', 'User\Dashboard::index');
     
-    // Fitur Booking Slot
+    // Fitur Booking Slot (DIUPDATE DAN DITAMBAHKAN DI SINI)
     $routes->get('booking', 'User\Booking::index');
-    $routes->post('booking/store', 'User\Booking::store'); 
+    $routes->post('booking/process', 'User\Booking::process'); // Menggantikan booking/store
+    $routes->get('booking/payment/(:num)', 'User\Booking::payment/$1');
+    $routes->post('booking/pay-process', 'User\Booking::payProcess');
 
     // Fitur Kelola Kendaraan
     $routes->get('vehicles', 'User\Vehicles::index');

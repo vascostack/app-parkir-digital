@@ -511,10 +511,16 @@
     document.getElementById('input-hidden-slot').value = bookingState.selectedSlot.id;
     document.getElementById('input-hidden-jenis').value = bookingState.selectedVehicleType.toLowerCase();
 
-    // Reset validasi select kendaraan saat masuk step 3
+    // --- PERBAIKAN DI SINI ---
+    // Reset dropdown kendaraan ke opsi default
     document.getElementById('checkout-vehicle-select').selectedIndex = 0;
+    
+    // Sembunyikan warning terlebih dahulu karena user belum memilih apa-apa
     document.getElementById('vehicle-warning').style.display = 'none';
-    document.getElementById('btnSubmitBooking').disabled = false;
+    
+    // Kunci tombol submit di awal sampai user memilih kendaraan yang BENAR
+    document.getElementById('btnSubmitBooking').disabled = true;
+    // -------------------------
 
     document.getElementById('stepIndicatorLine').style.width = '100%';
     document.getElementById('circleStep2').className = 'step-circle completed';
