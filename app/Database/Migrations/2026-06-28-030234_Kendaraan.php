@@ -19,7 +19,7 @@ class CreateKendaraanTable extends Migration
                 'type'       => 'INT', 
                 'constraint' => 11, 
                 'unsigned'   => true,
-                'null'       => true, // INI TAMBAHANNYA BIAR SINKRON SAMA DB (Boleh Kosong)
+                'null'       => true, // Sudah benar (Boleh Kosong)
             ],
             'no_polisi' => [
                 'type'       => 'VARCHAR', 
@@ -42,8 +42,9 @@ class CreateKendaraanTable extends Migration
         
         $this->forge->addKey('id_kendaraan', true);
         
-        // Relasi ke tabel users
-        $this->forge->addForeignKey('id_user', 'users', 'id_user', 'CASCADE', 'CASCADE');
+        // FIX: Ubah 'CASCADE' untuk aksi ON DELETE menjadi 'SET NULL'
+        // Parameter: addForeignKey(field_lokal, tabel_tujuan, field_tujuan, on_delete, on_update)
+        $this->forge->addForeignKey('id_user', 'users', 'id_user', 'SET NULL', 'CASCADE');
         
         $this->forge->createTable('kendaraan');
     }

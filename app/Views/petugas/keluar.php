@@ -6,36 +6,132 @@
 
 <style>
     /* Styling Umum Tema Navy */
-    .bg-navy { background-color: var(--navy-dark, #0f172a); }
-    .text-navy { color: var(--navy-dark, #0f172a); }
-    .card-premium { border: none; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-    
+    .bg-navy {
+        background-color: var(--navy-dark, #0f172a);
+    }
+
+    .text-navy {
+        color: var(--navy-dark, #0f172a);
+    }
+
+    .card-premium {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    }
+
     /* Tombol Aksi */
-    .btn-coral { background-color: #ef4444; color: white; border-radius: 8px; font-weight: 600; transition: 0.3s; }
-    .btn-coral:hover { background-color: #dc2626; color: white; }
-    .btn-navy-outline { border: 2px solid var(--navy-dark, #0f172a); color: var(--navy-dark, #0f172a); background: transparent; border-radius: 8px; font-weight: 600; }
-    .btn-navy-outline:hover { background: var(--navy-dark, #0f172a); color: white; }
-    
+    .btn-coral {
+        background-color: #ef4444;
+        color: white;
+        border-radius: 8px;
+        font-weight: 600;
+        transition: 0.3s;
+    }
+
+    .btn-coral:hover {
+        background-color: #dc2626;
+        color: white;
+    }
+
+    .btn-navy-outline {
+        border: 2px solid var(--navy-dark, #0f172a);
+        color: var(--navy-dark, #0f172a);
+        background: transparent;
+        border-radius: 8px;
+        font-weight: 600;
+    }
+
+    .btn-navy-outline:hover {
+        background: var(--navy-dark, #0f172a);
+        color: white;
+    }
+
     /* Box Estimasi */
-    .estimasi-box { background-color: #fef9c3; border: 1px solid #fde047; border-radius: 8px; padding: 15px; display: none; }
-    
+    .estimasi-box {
+        background-color: #fef9c3;
+        border: 1px solid #fde047;
+        border-radius: 8px;
+        padding: 15px;
+        display: none;
+    }
+
     /* Styling Struk */
-    .receipt-container { max-width: 450px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-top: 8px solid #22c55e; }
-    .receipt-header { text-align: center; border-bottom: 2px dashed #cbd5e1; padding-bottom: 15px; margin-bottom: 15px; }
-    .receipt-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.95rem; }
-    .receipt-total { border-top: 2px dashed #cbd5e1; padding-top: 15px; margin-top: 15px; font-weight: bold; font-size: 1.1rem; }
-    
+    .receipt-container {
+        max-width: 450px;
+        margin: 0 auto;
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        border-top: 8px solid #22c55e;
+    }
+
+    .receipt-header {
+        text-align: center;
+        border-bottom: 2px dashed #cbd5e1;
+        padding-bottom: 15px;
+        margin-bottom: 15px;
+    }
+
+    .receipt-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+        font-size: 0.95rem;
+    }
+
+    .receipt-total {
+        border-top: 2px dashed #cbd5e1;
+        padding-top: 15px;
+        margin-top: 15px;
+        font-weight: bold;
+        font-size: 1.1rem;
+    }
+
     /* Styling Kustom Select2 agar cocok dengan form-select-lg Bootstrap */
-    .select2-container .select2-selection--single { height: 48px; border: 1px solid #dee2e6; border-radius: 0.375rem; display: flex; align-items: center; }
-    .select2-container--default .select2-selection--single .select2-selection__arrow { height: 46px; }
-    
+    .select2-container .select2-selection--single {
+        height: 48px;
+        border: 1px solid #dee2e6;
+        border-radius: 0.375rem;
+        display: flex;
+        align-items: center;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 46px;
+    }
+
     /* Sembunyikan elemen lain saat nge-print */
     @media print {
-        body * { visibility: hidden; }
-        .receipt-container, .receipt-container * { visibility: visible; }
-        .receipt-container { position: absolute; left: 0; top: 0; width: 100%; box-shadow: none; border: none; padding: 0; margin: 0; }
-        .no-print { display: none !important; }
-        .main-sidebar, .main-header { display: none !important; }
+        body * {
+            visibility: hidden;
+        }
+
+        .receipt-container,
+        .receipt-container * {
+            visibility: visible;
+        }
+
+        .receipt-container {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            box-shadow: none;
+            border: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .no-print {
+            display: none !important;
+        }
+
+        .main-sidebar,
+        .main-header {
+            display: none !important;
+        }
     }
 </style>
 
@@ -60,16 +156,15 @@
     </div>
 <?php endif; ?>
 
-<?php if(session()->getFlashdata('struk')): ?>
+<?php if (session()->getFlashdata('struk')): ?>
     <?php $struk = session()->getFlashdata('struk'); ?>
-    <!-- Konten Struk Sama Seperti Sebelumnya -->
     <div class="receipt-container mt-4">
         <div class="receipt-header">
             <h5 class="fw-bold mb-1">PRIME PARKING</h5>
             <small class="text-muted">Sistem Parkir Digital</small><br>
             <small class="text-muted">Jl. Contoh No. 123, Kota Anda</small>
         </div>
-        
+
         <div class="receipt-body">
             <div class="receipt-row">
                 <span class="text-muted">ID Transaksi</span>
@@ -95,7 +190,7 @@
                 <span class="text-muted">Durasi Parkir</span>
                 <span><?= $struk['durasi_menit'] ?> menit</span>
             </div>
-            
+
             <div class="receipt-row mt-3">
                 <span class="text-muted">Tarif per Jam</span>
                 <span>Rp <?= number_format($struk['tarif_jam'], 0, ',', '.') ?></span>
@@ -104,18 +199,18 @@
                 <span class="text-muted">Lama Parkir</span>
                 <span><?= $struk['durasi_jam'] ?> jam</span>
             </div>
-            
+
             <div class="receipt-row receipt-total text-danger">
                 <span>TOTAL BAYAR</span>
                 <span>Rp <?= number_format($struk['total_bayar'], 0, ',', '.') ?></span>
             </div>
         </div>
-        
+
         <div class="text-center mt-4 mb-3">
             <small class="text-muted">Terima kasih atas kunjungan Anda</small><br>
             <small class="text-muted" style="font-size: 0.7rem;">Struk ini sah sebagai bukti pembayaran</small>
         </div>
-        
+
         <div class="d-flex gap-2 mt-4 justify-content-center no-print">
             <button onclick="window.print()" class="btn btn-primary flex-grow-1"><i class="bi bi-printer me-1"></i> Cetak Struk</button>
             <a href="<?= site_url('petugas/keluar') ?>" class="btn btn-secondary flex-grow-1"><i class="bi bi-arrow-repeat me-1"></i> Transaksi Baru</a>
@@ -133,19 +228,18 @@
                     </div>
                     <h5 class="fw-bold mb-0">Pilih Kendaraan Keluar</h5>
                 </div>
-                
+
                 <form id="formCheckout" action="<?= site_url('petugas/konfirmasi_keluar') ?>" method="post">
                     <?= csrf_field() ?>
                     <div class="mb-4">
                         <label class="form-label fw-semibold text-muted small">Cari Plat Nomor Kendaraan <span class="text-danger">*</span></label>
-                        <!-- Class select2-init ditambahkan untuk inisialisasi JS -->
                         <select name="id_transaksi" id="selectKendaraan" class="form-select form-select-lg select2-init" style="width: 100%;" required>
                             <option value="" selected disabled>-- Ketik Plat Nomor --</option>
-                            <?php foreach($kendaraan_parkir as $k) : ?>
-                                <option value="<?= $k['id_transaksi'] ?>" 
-                                        data-plat="<?= strtoupper($k['no_polisi']) ?>"
-                                        data-jenis="<?= $k['jenis'] ?>"
-                                        data-waktumasuk="<?= str_replace(' ', 'T', $k['waktu_masuk']) ?>">
+                            <?php foreach ($kendaraan_parkir as $k) : ?>
+                                <option value="<?= $k['id_transaksi'] ?>"
+                                    data-plat="<?= strtoupper($k['no_polisi']) ?>"
+                                    data-jenis="<?= $k['jenis'] ?>"
+                                    data-waktumasuk="<?= str_replace(' ', 'T', $k['waktu_masuk']) ?>">
                                     <?= strtoupper($k['no_polisi']) ?> - (<?= ucfirst($k['jenis']) ?>)
                                 </option>
                             <?php endforeach; ?>
@@ -185,7 +279,7 @@
                     <h6 class="fw-bold mb-0"><i class="bi bi-car-front me-2"></i> Daftar Kendaran Sedang Parkir</h6>
                     <span class="badge bg-warning text-dark rounded-pill"><?= count($kendaraan_parkir) ?> Total</span>
                 </div>
-                
+
                 <!-- Nav Tabs -->
                 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                     <li class="nav-item" role="presentation">
@@ -201,7 +295,7 @@
 
                 <!-- Tab Content -->
                 <div class="tab-content" id="pills-tabContent">
-                    
+
                     <!-- TAB SEMUA -->
                     <div class="tab-pane fade show active" id="pills-semua" role="tabpanel" aria-labelledby="pills-semua-tab">
                         <div class="table-responsive">
@@ -210,32 +304,35 @@
                                     <tr>
                                         <th>Plat Nomor</th>
                                         <th>Jenis</th>
-                                        <th>Masuk</th>
+                                        <th>Durasi Parkir</th>
                                         <th class="text-center">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php if(count($kendaraan_parkir) > 0): ?>
-                                        <?php foreach($kendaraan_parkir as $kp) : ?>
-                                        <tr>
-                                            <td class="fw-bold"><?= strtoupper($kp['no_polisi']) ?></td>
-                                            <td>
-                                                <?php if($kp['jenis'] == 'motor'): ?>
-                                                    <span class="text-success"><i class="bi bi-scooter"></i> Motor</span>
-                                                <?php else: ?>
-                                                    <span class="text-primary"><i class="bi bi-car-front"></i> Mobil</span>
-                                                <?php endif; ?>
-                                            </td>
-                                            <td>
-                                                <div class="fw-semibold"><?= date('H:i', strtotime($kp['waktu_masuk'])) ?></div>
-                                            </td>
-                                            <td class="text-center">
-                                                <button type="button" class="btn btn-sm btn-outline-danger btn-pilih-cepat" data-id="<?= $kp['id_transaksi'] ?>">Checkout</button>
-                                            </td>
-                                        </tr>
+                                    <?php if (count($kendaraan_parkir) > 0): ?>
+                                        <?php foreach ($kendaraan_parkir as $kp) : ?>
+                                            <tr class="row-parkir" data-waktumasuk="<?= str_replace(' ', 'T', $kp['waktu_masuk']) ?>" data-jenis="<?= $kp['jenis'] ?>">
+                                                <td class="fw-bold"><?= strtoupper($kp['no_polisi']) ?></td>
+                                                <td>
+                                                    <?php if ($kp['jenis'] == 'motor'): ?>
+                                                        <span class="text-success"><i class="bi bi-scooter"></i> Motor</span>
+                                                    <?php else: ?>
+                                                        <span class="text-primary"><i class="bi bi-car-front"></i> Mobil</span>
+                                                    <?php endif; ?>
+                                                </td>
+                                                <td>
+                                                    <div class="fw-bold text-navy p-0 m-0 class-durasi">-</div>
+                                                    <small class="text-muted text-xs">Masuk: <?= date('H:i', strtotime($kp['waktu_masuk'])) ?></small>
+                                                </td>
+                                                <td class="text-center">
+                                                    <button type="button" class="btn btn-sm btn-outline-danger btn-pilih-cepat" data-id="<?= $kp['id_transaksi'] ?>">Checkout</button>
+                                                </td>
+                                            </tr>
                                         <?php endforeach; ?>
                                     <?php else: ?>
-                                        <tr><td colspan="4" class="text-center text-muted py-4">Kosong.</td></tr>
+                                        <tr>
+                                            <td colspan="4" class="text-center text-muted py-4">Kosong.</td>
+                                        </tr>
                                     <?php endif; ?>
                                 </tbody>
                             </table>
@@ -249,28 +346,32 @@
                                 <thead class="table-light">
                                     <tr>
                                         <th>Plat Nomor</th>
-                                        <th>Masuk</th>
+                                        <th>Durasi Parkir</th>
                                         <th class="text-center">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php 
+                                    <?php
                                     $countMotor = 0;
-                                    foreach($kendaraan_parkir as $kp) : 
-                                        if($kp['jenis'] == 'motor'): $countMotor++;
+                                    foreach ($kendaraan_parkir as $kp) :
+                                        if ($kp['jenis'] == 'motor'): $countMotor++;
                                     ?>
+                                            <tr class="row-parkir" data-waktumasuk="<?= str_replace(' ', 'T', $kp['waktu_masuk']) ?>" data-jenis="<?= $kp['jenis'] ?>">
+                                                <td class="fw-bold"><?= strtoupper($kp['no_polisi']) ?></td>
+                                                <td>
+                                                    <div class="fw-bold text-navy p-0 m-0 class-durasi">-</div>
+                                                    <small class="text-muted text-xs">Masuk: <?= date('H:i', strtotime($kp['waktu_masuk'])) ?></small>
+                                                </td>
+                                                <td class="text-center">
+                                                    <button type="button" class="btn btn-sm btn-outline-danger btn-pilih-cepat" data-id="<?= $kp['id_transaksi'] ?>">Checkout</button>
+                                                </td>
+                                            </tr>
+                                    <?php endif;
+                                    endforeach; ?>
+                                    <?php if ($countMotor == 0): ?>
                                         <tr>
-                                            <td class="fw-bold"><?= strtoupper($kp['no_polisi']) ?></td>
-                                            <td>
-                                                <div class="fw-semibold"><?= date('H:i', strtotime($kp['waktu_masuk'])) ?></div>
-                                            </td>
-                                            <td class="text-center">
-                                                <button type="button" class="btn btn-sm btn-outline-danger btn-pilih-cepat" data-id="<?= $kp['id_transaksi'] ?>">Checkout</button>
-                                            </td>
+                                            <td colspan="3" class="text-center text-muted py-4">Tidak ada motor.</td>
                                         </tr>
-                                    <?php endif; endforeach; ?>
-                                    <?php if($countMotor == 0): ?>
-                                        <tr><td colspan="3" class="text-center text-muted py-4">Tidak ada motor.</td></tr>
                                     <?php endif; ?>
                                 </tbody>
                             </table>
@@ -284,28 +385,32 @@
                                 <thead class="table-light">
                                     <tr>
                                         <th>Plat Nomor</th>
-                                        <th>Masuk</th>
+                                        <th>Durasi Parkir</th>
                                         <th class="text-center">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php 
+                                    <?php
                                     $countMobil = 0;
-                                    foreach($kendaraan_parkir as $kp) : 
-                                        if($kp['jenis'] == 'mobil'): $countMobil++;
+                                    foreach ($kendaraan_parkir as $kp) :
+                                        if ($kp['jenis'] == 'mobil'): $countMobil++;
                                     ?>
+                                            <tr class="row-parkir" data-waktumasuk="<?= str_replace(' ', 'T', $kp['waktu_masuk']) ?>" data-jenis="<?= $kp['jenis'] ?>">
+                                                <td class="fw-bold"><?= strtoupper($kp['no_polisi']) ?></td>
+                                                <td>
+                                                    <div class="fw-bold text-navy p-0 m-0 class-durasi">-</div>
+                                                    <small class="text-muted text-xs">Masuk: <?= date('H:i', strtotime($kp['waktu_masuk'])) ?></small>
+                                                </td>
+                                                <td class="text-center">
+                                                    <button type="button" class="btn btn-sm btn-outline-danger btn-pilih-cepat" data-id="<?= $kp['id_transaksi'] ?>">Checkout</button>
+                                                </td>
+                                            </tr>
+                                    <?php endif;
+                                    endforeach; ?>
+                                    <?php if ($countMobil == 0): ?>
                                         <tr>
-                                            <td class="fw-bold"><?= strtoupper($kp['no_polisi']) ?></td>
-                                            <td>
-                                                <div class="fw-semibold"><?= date('H:i', strtotime($kp['waktu_masuk'])) ?></div>
-                                            </td>
-                                            <td class="text-center">
-                                                <button type="button" class="btn btn-sm btn-outline-danger btn-pilih-cepat" data-id="<?= $kp['id_transaksi'] ?>">Checkout</button>
-                                            </td>
+                                            <td colspan="3" class="text-center text-muted py-4">Tidak ada mobil.</td>
                                         </tr>
-                                    <?php endif; endforeach; ?>
-                                    <?php if($countMobil == 0): ?>
-                                        <tr><td colspan="3" class="text-center text-muted py-4">Tidak ada mobil.</td></tr>
                                     <?php endif; ?>
                                 </tbody>
                             </table>
@@ -316,7 +421,7 @@
         </div>
 
         <div class="col-lg-4">
-            <!-- Sidebar Informasi Parkir Sama Seperti Sebelumnya -->
+            <!-- Sidebar Informasi Parkir -->
             <div class="card card-premium p-4 mb-4" style="background-color: #fdfbf7;">
                 <h6 class="fw-bold text-dark mb-3"><i class="bi bi-info-circle text-danger me-2"></i> Informasi Parkir Keluar</h6>
                 <ul class="list-unstyled mb-0 text-muted small" style="line-height: 2;">
@@ -350,7 +455,7 @@
                     </div>
                 </div>
                 <h5 class="fw-bold mb-3">Konfirmasi Parkir Keluar</h5>
-                
+
                 <div class="bg-light rounded p-2 mb-4 text-start small">
                     <div class="mb-1"><strong>Plat:</strong> <span id="modalPlat">-</span></div>
                     <div class="mb-1"><strong>Durasi:</strong> <span id="modalDurasi">-</span></div>
@@ -371,124 +476,156 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // 1. Inisialisasi variabel DOM
-    const estimasiBox = document.getElementById('estimasiBox');
-    const estDurasi = document.getElementById('estDurasi');
-    const estBiaya = document.getElementById('estBiaya');
-    const btnProses = document.getElementById('btnProsesKeluar');
-    const formCheckout = document.getElementById('formCheckout');
+    document.addEventListener('DOMContentLoaded', function() {
+        const estimasiBox = document.getElementById('estimasiBox');
+        const estDurasi = document.getElementById('estDurasi');
+        const estBiaya = document.getElementById('estBiaya');
+        const btnProses = document.getElementById('btnProsesKeluar');
+        const formCheckout = document.getElementById('formCheckout');
 
-    // 2. Inisialisasi Select2
-    if($('.select2-init').length > 0) {
-        $('.select2-init').select2({
-            placeholder: "-- Ketik Plat Nomor --",
-            allowClear: true
+        
+        let waktuServer = new Date(); 
+
+        if ($('.select2-init').length > 0) {
+            $('.select2-init').select2({
+                placeholder: "-- Ketik Plat Nomor --",
+                allowClear: true
+            });
+        }
+
+        let modalKonfirmasi;
+        const modalEl = document.getElementById('modalKonfirmasi');
+        if (modalEl) {
+            modalKonfirmasi = new bootstrap.Modal(modalEl);
+        }
+
+
+        setInterval(function() {
+            waktuServer.setSeconds(waktuServer.getSeconds() + 1);
+        }, 1000);
+
+        function hitungEstimasi(selectedOption) {
+            if (!selectedOption) return;
+
+            const waktuMasukStr = selectedOption.getAttribute('data-waktumasuk');
+            const jenis = selectedOption.getAttribute('data-jenis');
+            const plat = selectedOption.getAttribute('data-plat');
+
+            if (!waktuMasukStr) return;
+
+            const parts = waktuMasukStr.split(/[- :T]/);
+            const waktuMasuk = new Date(parts[0], parts[1] - 1, parts[2], parts[3], parts[4], parts[5]);
+
+           
+            let selisihMs = waktuServer - waktuMasuk;
+            
+            if (selisihMs > 24000000 && (waktuServer.getHours() - waktuMasuk.getHours() >= 7)) {
+                selisihMs -= 7 * 60 * 60 * 1000; 
+            }
+            if (selisihMs < 0) selisihMs = 0;
+
+            const menitTotal = Math.floor(selisihMs / 60000);
+            const jam = Math.floor(menitTotal / 60);
+            const sisaMenit = menitTotal % 60;
+
+            let textDurasi = '';
+            if (jam > 0) textDurasi += jam + ' jam ';
+            textDurasi += sisaMenit + ' menit';
+
+            const tarifPerJam = (jenis === 'mobil') ? 5000 : 2000;
+            let totalBiaya = 0;
+
+            if (menitTotal > 0) {
+                let jamDihitung = Math.ceil(menitTotal / 60);
+                totalBiaya = jamDihitung * tarifPerJam;
+            }
+
+            const formatRupiah = new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(totalBiaya);
+
+            estDurasi.textContent = textDurasi;
+            estBiaya.textContent = formatRupiah;
+            document.getElementById('modalPlat').textContent = plat + ' (' + jenis + ')';
+            document.getElementById('modalDurasi').textContent = textDurasi;
+            document.getElementById('modalBiaya').textContent = formatRupiah;
+
+            btnProses.disabled = false;
+            estimasiBox.style.display = 'block';
+        }
+
+        $('#selectKendaraan').on('select2:select', function(e) {
+            hitungEstimasi(e.params.data.element);
         });
-    }
 
-    // 3. Modal Konfirmasi
-    let modalKonfirmasi;
-    const modalEl = document.getElementById('modalKonfirmasi');
-    if(modalEl) {
-        modalKonfirmasi = new bootstrap.Modal(modalEl);
-    }
+        $('#selectKendaraan').on('select2:unselect', function() {
+            estimasiBox.style.display = 'none';
+            btnProses.disabled = true;
+        });
 
-    // 4. FUNGSI UTAMA PERHITUNGAN
-    function hitungEstimasi(selectedOption) {
-        if (!selectedOption) return;
+        $('.btn-pilih-cepat').on('click', function() {
+            const idTransaksi = $(this).data('id');
+            $('#selectKendaraan').val(idTransaksi).trigger('change.select2');
+            const selectedOption = $('#selectKendaraan option[value="' + idTransaksi + '"]')[0];
+            hitungEstimasi(selectedOption);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
 
-        // Ambil Data dari atribut (Wajib menggunakan .element untuk Select2)
-        const waktuMasukStr = selectedOption.getAttribute('data-waktumasuk');
-        const jenis = selectedOption.getAttribute('data-jenis');
-        const plat = selectedOption.getAttribute('data-plat');
+        document.getElementById('btnBatal').addEventListener('click', function() {
+            $('#selectKendaraan').val(null).trigger('change.select2');
+            estimasiBox.style.display = 'none';
+            btnProses.disabled = true;
+        });
 
-        if(!waktuMasukStr) return;
+        btnProses.addEventListener('click', function() {
+            if (modalKonfirmasi) modalKonfirmasi.show();
+        });
 
-        // Parsing waktu (Anti Timezone Bug)
-        const parts = waktuMasukStr.split(/[- :T]/);
-        const waktuMasuk = new Date(parts[0], parts[1] - 1, parts[2], parts[3], parts[4], parts[5]);
-        const sekarang = new Date();
-        
-        let selisihMs = sekarang - waktuMasuk;
-        if (selisihMs < 0) selisihMs = 0; 
+        document.getElementById('btnSubmitFinal').addEventListener('click', function() {
+            this.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Memproses...';
+            this.disabled = true;
+            formCheckout.submit();
+        });
 
-        const menitTotal = Math.floor(selisihMs / 60000);
-        const jam = Math.floor(menitTotal / 60);
-        const sisaMenit = menitTotal % 60;
+        function updateSemuaDurasiTabel() {
+            const semuaBaris = document.querySelectorAll('.row-parkir');
 
-        let textDurasi = '';
-        if (jam > 0) textDurasi += jam + ' jam ';
-        textDurasi += sisaMenit + ' menit';
+            semuaBaris.forEach(row => {
+                const waktuMasukStr = row.getAttribute('data-waktumasuk');
+                const targetTeks = row.querySelector('.class-durasi');
 
-        // Kalkulasi Biaya
-        let jamDihitung = Math.ceil(menitTotal / 60);
-        if (jamDihitung === 0) jamDihitung = 1; 
+                if (!waktuMasukStr || !targetTeks) return;
 
-        const tarifPerJam = (jenis === 'mobil') ? 5000 : 2000;
-        const totalBiaya = jamDihitung * tarifPerJam;
+                const parts = waktuMasukStr.split(/[- :T]/);
+                const waktuMasuk = new Date(parts[0], parts[1] - 1, parts[2], parts[3], parts[4], parts[5]);
+                
+                let selisihMs = waktuServer - waktuMasuk;
+                
+                if (selisihMs > 24000000 && (waktuServer.getHours() - waktuMasuk.getHours() >= 7)) {
+                    selisihMs -= 7 * 60 * 60 * 1000;
+                }
+                if (selisihMs < 0) selisihMs = 0;
 
-        const formatRupiah = new Intl.NumberFormat('id-ID', { 
-            style: 'currency', currency: 'IDR', minimumFractionDigits: 0 
-        }).format(totalBiaya);
+                const detikTotal = Math.floor(selisihMs / 1000);
+                const menitTotal = Math.floor(detikTotal / 60);
+                const jam = Math.floor(menitTotal / 60);
+                const sisaMenit = menitTotal % 60;
+                const sisaDetik = detikTotal % 60;
 
-        // Update UI
-        estDurasi.textContent = textDurasi;
-        estBiaya.textContent = formatRupiah;
-        document.getElementById('modalPlat').textContent = plat + ' (' + jenis + ')';
-        document.getElementById('modalDurasi').textContent = textDurasi;
-        document.getElementById('modalBiaya').textContent = formatRupiah;
-        
-        // Tampilkan
-        btnProses.disabled = false;
-        estimasiBox.style.display = 'block';
-    }
+                let textDurasi = '';
+                if (jam > 0) textDurasi += jam + 'j ';
+                if (menitTotal > 0 || jam > 0) textDurasi += sisaMenit + 'm ';
+                textDurasi += sisaDetik + 'd';
 
-    // 5. EVENT HANDLER KHUSUS SELECT2
-    // Menggunakan select2:select agar data langsung terbaca
-    $('#selectKendaraan').on('select2:select', function(e) {
-        const selectedOption = e.params.data.element; 
-        hitungEstimasi(selectedOption);
+                targetTeks.textContent = textDurasi;
+            });
+        }
+
+        updateSemuaDurasiTabel();
+        setInterval(updateSemuaDurasiTabel, 1000);
     });
-
-    // Menangani saat dropdown dikosongkan/di-clear
-    $('#selectKendaraan').on('select2:unselect', function() {
-        estimasiBox.style.display = 'none';
-        btnProses.disabled = true;
-    });
-
-    // Event saat tombol "Checkout" di tabel di klik
-    $('.btn-pilih-cepat').on('click', function() {
-        const idTransaksi = $(this).data('id');
-        $('#selectKendaraan').val(idTransaksi).trigger('change.select2');
-        
-        // Kita panggil manual karena trigger change di select2 tidak memicu event select2:select
-        // Kita cari element option yang sesuai
-        const selectedOption = $('#selectKendaraan option[value="'+idTransaksi+'"]')[0];
-        hitungEstimasi(selectedOption);
-        
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-
-    // Event Batal
-    document.getElementById('btnBatal').addEventListener('click', function() {
-        $('#selectKendaraan').val(null).trigger('change.select2');
-        estimasiBox.style.display = 'none';
-        btnProses.disabled = true;
-    });
-
-    // Event Modal
-    btnProses.addEventListener('click', function() {
-        if(modalKonfirmasi) modalKonfirmasi.show();
-    });
-
-    // Event Submit Form
-    document.getElementById('btnSubmitFinal').addEventListener('click', function() {
-        this.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Memproses...';
-        this.disabled = true;
-        formCheckout.submit();
-    });
-});
 </script>
 
 <?= $this->endSection() ?>
