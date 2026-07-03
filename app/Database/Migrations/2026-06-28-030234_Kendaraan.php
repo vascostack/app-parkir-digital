@@ -19,7 +19,7 @@ class CreateKendaraanTable extends Migration
                 'type'       => 'INT', 
                 'constraint' => 11, 
                 'unsigned'   => true,
-                'null'       => true, // Sudah benar (Boleh Kosong)
+                'null'       => true, 
             ],
             'no_polisi' => [
                 'type'       => 'VARCHAR', 

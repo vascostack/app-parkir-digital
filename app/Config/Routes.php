@@ -14,10 +14,9 @@ $routes->get('register', 'Auth::register');
 $routes->post('register/attempt', 'Auth::attemptRegister');
 $routes->get('logout', 'Auth::logout');
 
-// 3. GROUP KHUSUS ADMIN (Diproteksi Filter Admin)
 $routes->group('admin', ['filter' => 'roleFilter:admin'], function($routes) {
-    $routes->get('dashboard', 'Admin\Dashboard::index');
-    // Tambahkan rute admin kelola lokasi/slot di sini nanti jika diperlukan
+    // Ubah bagian kanan ini dari 'Admin\Dashboard::index' menjadi 'Admin::dashboard'
+    $routes->get('dashboard', 'Admin::dashboard'); 
 });
 
 // 4. GROUP KHUSUS PETUGAS (Diproteksi Filter Petugas & Mengarah ke Controller Tunggal Petugas)
