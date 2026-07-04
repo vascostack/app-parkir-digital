@@ -13,24 +13,122 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
   <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.min.css" rel="stylesheet">
-  
+
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
   <style>
-    :root { --navy-dark: #0a1628; --navy-light: #1a2a3a; --slate-gray: #5e6e82; --soft-bg: #f8f9fa; --card-shadow: 0 4px 20px -2px rgba(10, 22, 40, 0.05); }
-    body { font-family: 'Inter', sans-serif; background-color: var(--soft-bg); color: #334155; overflow-x: hidden; }
-    h1, h2, h3, h4, h5, h6, .font-poppins { font-family: 'Poppins', sans-serif; }
-    .sidebar { background-color: #ffffff; border-right: 1px solid #e2e8f0; width: 280px; height: 100vh; position: fixed; top: 0; left: 0; z-index: 100; transition: all 0.3s ease; }
-    .main-content { margin-left: 280px; min-height: 100vh; transition: all 0.3s ease; }
-    .custom-navbar { background-color: #ffffff; border-bottom: 1px solid #e2e8f0; padding: 1rem 2rem; }
-    .brand-logo { color: var(--navy-dark); font-weight: 700; font-size: 1.3rem; display: flex; align-items: center; gap: 10px; padding: 1.5rem 1.25rem; border-bottom: 1px solid #f1f5f9; }
-    .brand-logo i { color: var(--navy-light); font-size: 1.6rem; }
-    .nav-menu { padding: 1.5rem 1rem; }
-    .nav-item-custom { display: flex; align-items: center; gap: 12px; padding: 0.85rem 1.2rem; color: var(--slate-gray); text-decoration: none; border-radius: 10px; font-weight: 500; margin-bottom: 0.5rem; transition: all 0.2s ease-in-out; }
-    .nav-item-custom:hover { background-color: #f1f5f9; color: var(--navy-dark); }
-    .nav-item-custom.active { background-color: var(--navy-dark); color: #ffffff; }
-    .premium-card { background-color: #ffffff; border: 1px solid #e2e8f0; border-radius: 16px; box-shadow: var(--card-shadow); }
-    @media (max-width: 991.98px) { .sidebar { left: -280px; } .sidebar.show { left: 0; } .main-content { margin-left: 0; } }
+    :root {
+      --navy-dark: #0a1628;
+      --navy-light: #1a2a3a;
+      --slate-gray: #5e6e82;
+      --soft-bg: #f8f9fa;
+      --card-shadow: 0 4px 20px -2px rgba(10, 22, 40, 0.05);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--soft-bg);
+      color: #334155;
+      overflow-x: hidden;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    .font-poppins {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .sidebar {
+      background-color: #ffffff;
+      border-right: 1px solid #e2e8f0;
+      width: 280px;
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 100;
+      transition: all 0.3s ease;
+    }
+
+    .main-content {
+      margin-left: 280px;
+      min-height: 100vh;
+      transition: all 0.3s ease;
+    }
+
+    .custom-navbar {
+      background-color: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 1rem 2rem;
+    }
+
+    .brand-logo {
+      color: var(--navy-dark);
+      font-weight: 700;
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 1.5rem 1.25rem;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .brand-logo i {
+      color: var(--navy-light);
+      font-size: 1.6rem;
+    }
+
+    .nav-menu {
+      padding: 1.5rem 1rem;
+    }
+
+    .nav-item-custom {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0.85rem 1.2rem;
+      color: var(--slate-gray);
+      text-decoration: none;
+      border-radius: 10px;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .nav-item-custom:hover {
+      background-color: #f1f5f9;
+      color: var(--navy-dark);
+    }
+
+    .nav-item-custom.active {
+      background-color: var(--navy-dark);
+      color: #ffffff;
+    }
+
+    .premium-card {
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      box-shadow: var(--card-shadow);
+    }
+
+    @media (max-width: 991.98px) {
+      .sidebar {
+        left: -280px;
+      }
+
+      .sidebar.show {
+        left: 0;
+      }
+
+      .main-content {
+        margin-left: 0;
+      }
+    }
   </style>
 </head>
 
@@ -58,11 +156,14 @@
       <a href="<?= site_url('petugas/transaksi') ?>" class="nav-item-custom <?= url_is('petugas/transaksi') ? 'active' : '' ?>">
         <i class="bi bi-receipt-cutoff"></i> <span>Data Transaksi</span>
       </a>
+      <a href="<?= site_url('petugas/bookingpetugas') ?>" class="nav-item-custom <?= url_is('petugas/bookingpetugas*') ? 'active' : '' ?>">
+        <i class="bi bi-qr-code-scan"></i> <span>Booking</span>
+      </a>
       <a href="<?= site_url('logout'); ?>" class="nav-item-custom text-danger">
         <i class="bi bi-box-arrow-right"></i> <span>Keluar</span>
       </a>
     </nav>
-    
+
     <div class="position-absolute bottom-0 w-100 p-4 border-top bg-white">
       <div class="d-flex align-items-center gap-3">
         <div class="bg-light rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px;">
@@ -106,4 +207,5 @@
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 </body>
+
 </html>
