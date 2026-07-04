@@ -17,6 +17,13 @@ $routes->get('logout', 'Auth::logout');
 $routes->group('admin', ['filter' => 'roleFilter:admin'], function ($routes) {
     // Ubah bagian kanan ini dari 'Admin\Dashboard::index' menjadi 'Admin::dashboard'
     $routes->get('dashboard', 'Admin::dashboard');
+    $routes->get('tarif', 'Admin::tarif');
+    $routes->get('laporan', 'Admin::laporan');
+    $routes->get('laporan/cetak', 'Admin::cetak_laporan');
+    $routes->get('petugas', 'Admin::petugas');
+    $routes->post('petugas/simpan', 'Admin::simpan_petugas');
+    $routes->post('petugas/update', 'Admin::update_petugas');
+    $routes->get('petugas/hapus/(:num)', 'Admin::hapus_petugas/$1');
 });
 
 // 4. GROUP KHUSUS PETUGAS (Diproteksi Filter Petugas & Mengarah ke Controller Tunggal Petugas)
