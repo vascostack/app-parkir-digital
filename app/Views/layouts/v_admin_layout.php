@@ -39,7 +39,13 @@
       overflow-x: hidden;
     }
 
-    h1, h2, h3, h4, h5, h6, .font-poppins {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    .font-poppins {
       font-family: 'Poppins', sans-serif;
     }
 
@@ -80,7 +86,7 @@
     }
 
     .brand-logo i {
-      color: #ef4444; /* Ganti warna icon merah melambangkan admin */
+      color: #ef4444;
       font-size: 1.6rem;
     }
 
@@ -129,9 +135,17 @@
     }
 
     @media (max-width: 991.98px) {
-      .sidebar { left: -280px; }
-      .sidebar.show { left: 0; }
-      .main-content { margin-left: 0; }
+      .sidebar {
+        left: -280px;
+      }
+
+      .sidebar.show {
+        left: 0;
+      }
+
+      .main-content {
+        margin-left: 0;
+      }
     }
   </style>
 </head>
@@ -194,7 +208,6 @@
       <div class="d-flex align-items-center gap-3">
         <div class="bg-light px-3 py-1.5 rounded-3 d-none d-md-flex align-items-center gap-2 border">
           <i class="bi bi-clock text-navy-dark"></i>
-          <!-- Script jam real-time ditaruh di sini nanti biar otomatis -->
           <span class="font-monospace fw-semibold" id="waktu-header" style="font-size: 13px;"><?= date('Y-m-d H:i:s') ?></span>
         </div>
         <div class="bg-danger text-white rounded-circle p-1 d-flex align-items-center justify-content-center fw-bold" style="width: 36px; height: 36px;">
@@ -213,23 +226,26 @@
   <!-- Script Libraries -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  
+
   <script>
     // Script jam real-time di Navbar atas
     setInterval(function() {
-        const target = document.getElementById('waktu-header');
-        if(target) {
-            const sekarang = new Date();
-            const format = sekarang.getFullYear() + '-' + 
-                String(sekarang.getMonth() + 1).padStart(2, '0') + '-' + 
-                String(sekarang.getDate()).padStart(2, '0') + ' ' + 
-                String(sekarang.getHours()).padStart(2, '0') + ':' + 
-                String(sekarang.getMinutes()).padStart(2, '0') + ':' + 
-                String(sekarang.getSeconds()).padStart(2, '0');
-            target.textContent = format;
-        }
+      const target = document.getElementById('waktu-header');
+      if (target) {
+        const sekarang = new Date();
+        const format = sekarang.getFullYear() + '-' +
+          String(sekarang.getMonth() + 1).padStart(2, '0') + '-' +
+          String(sekarang.getDate()).padStart(2, '0') + ' ' +
+          String(sekarang.getHours()).padStart(2, '0') + ':' +
+          String(sekarang.getMinutes()).padStart(2, '0') + ':' +
+          String(sekarang.getSeconds()).padStart(2, '0');
+        target.textContent = format;
+      }
     }, 1000);
   </script>
+
+  <!-- RENDER SECTION SCRIPTS ANAK (DI SINI CHART AKAN MUNCUL) -->
+  <?= $this->renderSection('scripts') ?>
 </body>
 
 </html>

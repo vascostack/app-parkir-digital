@@ -3,7 +3,7 @@
 <?= $this->section('content') ?>
 
 <!-- ROW CARD METRIK UTAMA -->
-<div class="row g-4 mb-5">
+<div class="row g-4 mb-4">
     <!-- Card Pendapatan -->
     <div class="col-12 col-sm-6 col-xl-3">
         <div class="premium-card p-4 h-100" style="border-top: 4px solid #22c55e;">
@@ -60,6 +60,29 @@
                 <div class="bg-danger bg-opacity-10 text-danger rounded-3 p-3 d-flex align-items-center justify-content-center" style="width: 52px; height: 52px;">
                     <i class="bi bi-grid-3x3-gap fs-3"></i>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ROW DIAGRAM STATISTIK -->
+<div class="row g-4 mb-5">
+    <!-- Chart Tren Pendapatan -->
+    <div class="col-lg-8">
+        <div class="premium-card p-4">
+            <h5 class="fw-bold text-navy-dark mb-3"><i class="bi bi-graph-up me-2 text-success"></i> Tren Pendapatan Parkir</h5>
+            <div style="position: relative; height: 300px;">
+                <canvas id="revenueChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart Rasio Kendaraan -->
+    <div class="col-lg-4">
+        <div class="premium-card p-4">
+            <h5 class="fw-bold text-navy-dark mb-3"><i class="bi bi-pie-chart me-2 text-primary"></i> Rasio Kendaraan</h5>
+            <div style="position: relative; height: 300px;" class="d-flex align-items-center justify-content-center">
+                <canvas id="vehicleChart"></canvas>
             </div>
         </div>
     </div>
@@ -142,4 +165,84 @@
     </div>
 </div>
 
+<?= $this->endSection() ?>
+
+<!-- SECTION SCRIPT KHUSUS UNTUK CHART -->
+<?= $this->section('scripts') ?>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    
+    // Inisialisasi Data dari PHP dengan proteksi fallback array kosong jika null
+    const labelsRevenue = <?= !empty($chart_revenue_labels) ? $chart_revenue_labels : '["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"]' ?>;
+    const dataRevenue   = <?= !empty($chart_revenue_data) ? $chart_revenue_data : '[0, 0, 0, 0, 0, 0, 0]' ?>;
+    const dataMobil     = <?= $chart_veh_mobil ?? 0 ?>;
+    const dataMotor     = <?= $chart_veh_motor ?? 0 ?>;
+
+    // 1. Render Chart Line Tren Pendapatan
+    const canvasRevenue = document.getElementById('revenueChart');
+    if (canvasRevenue) {
+        new Chart(canvasRevenue.getContext('2d'), {
+            type: 'line',
+            data: {
+                labels: labelsRevenue,
+                datasets: [{
+                    label: 'Pendapatan (Rp)',
+                    data: dataRevenue,
+                    borderColor: '#22c55e',
+                    backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.3,
+                    pointBackgroundColor: '#22c55e'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return 'Rp ' + value.toLocaleString('id-ID');
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // 2. Render Chart Doughnut Rasio Kendaraan
+    const canvasVehicle = document.getElementById('vehicleChart');
+    if (canvasVehicle) {
+        new Chart(canvasVehicle.getContext('2d'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Mobil', 'Motor'],
+                datasets: [{
+                    data: [dataMobil, dataMotor],
+                    backgroundColor: ['#3b82f6', '#10b981'],
+                    borderWidth: 2,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { boxWidth: 12, font: { size: 12 } }
+                    }
+                }
+            }
+        });
+    }
+});
+</script>
 <?= $this->endSection() ?>

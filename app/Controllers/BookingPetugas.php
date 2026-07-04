@@ -6,17 +6,18 @@ use App\Controllers\BaseController;
 
 class BookingPetugas extends BaseController
 {
-    // 1. MENAMPILKAN HALAMAN MANAGEMENT DAFTAR RESERVASI USER
+    // 1. MENAMPILKAN HALAMAN MANAGEMENT DAFTAR RESERVASI USER (YANG BELUM CHECK-IN)
     public function index()
     {
         $db = \Config\Database::connect();
-        
-        // Ambil data reservasi dengan join ke users (menggunakan kolom nama saja), slot_parkir, dan kendaraan
+
+        // FIX PERFEKSI: Tambahkan filter where agar data yang SUDAH check-in otomatis hilang dari tabel monitoring booking
         $daftar_booking = $db->table('reservasi')
             ->select('reservasi.*, users.nama as nama_user, slot_parkir.kode_slot, kendaraan.no_polisi, kendaraan.jenis')
             ->join('users', 'users.id_user = reservasi.id_user', 'left')
             ->join('slot_parkir', 'slot_parkir.id_slot = reservasi.id_slot', 'left')
             ->join('kendaraan', 'kendaraan.id_kendaraan = reservasi.id_kendaraan', 'left')
+            ->where('reservasi.status_reservasi', 'dibooking') // <-- Kunci perfeksi fitur di sini, Bro!
             ->orderBy('reservasi.waktu_kedatangan', 'ASC')
             ->get()->getResultArray();
 
