@@ -15,15 +15,32 @@ $routes->post('register/attempt', 'Auth::attemptRegister');
 $routes->get('logout', 'Auth::logout');
 
 $routes->group('admin', ['filter' => 'roleFilter:admin'], function ($routes) {
-    // Ubah bagian kanan ini dari 'Admin\Dashboard::index' menjadi 'Admin::dashboard'
     $routes->get('dashboard', 'Admin::dashboard');
-    $routes->get('tarif', 'Admin::tarif');
+    
+    // RUTE TARIF SUDAH DIHAPUS DARI SINI
+    
     $routes->get('laporan', 'Admin::laporan');
     $routes->get('laporan/cetak', 'Admin::cetak_laporan');
     $routes->get('petugas', 'Admin::petugas');
     $routes->post('petugas/simpan', 'Admin::simpan_petugas');
     $routes->post('petugas/update', 'Admin::update_petugas');
     $routes->get('petugas/hapus/(:num)', 'Admin::hapus_petugas/$1');
+
+    // =================================================================
+    // TAMBAHAN RUTE UNTUK KELOLA LOKASI & SLOT
+    // =================================================================
+    
+    // Rute Master Lokasi (Gedung)
+    $routes->get('lokasi', 'LokasiController::index');
+    $routes->post('lokasi/store', 'LokasiController::store');
+    $routes->post('lokasi/update', 'LokasiController::update');
+    $routes->get('lokasi/delete/(:num)', 'LokasiController::delete/$1');
+    
+    // Rute Detail Slot
+    $routes->get('lokasi/slot/(:num)', 'LokasiController::slot/$1');
+    $routes->post('lokasi/store_slot', 'LokasiController::store_slot');
+    $routes->post('lokasi/update_slot', 'LokasiController::update_slot');
+    $routes->get('lokasi/delete_slot/(:num)/(:num)', 'LokasiController::delete_slot/$1/$2');
 });
 
 // 4. GROUP KHUSUS PETUGAS (Diproteksi Filter Petugas & Mengarah ke Controller Tunggal Petugas)

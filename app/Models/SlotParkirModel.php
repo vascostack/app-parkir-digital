@@ -9,5 +9,14 @@ class SlotParkirModel extends Model
     protected $table            = 'slot_parkir';
     protected $primaryKey       = 'id_slot';
     protected $useAutoIncrement = true;
-    protected $allowedFields    = ['id_lokasi', 'kode_slot', 'jenis_slot', 'status_slot'];
+    protected $returnType       = 'array';
+    protected $useTimestamps    = false;
+    
+    // Disesuaikan persis dengan kolom di database (tanpa id_slot karena auto increment)
+    protected $allowedFields    = [
+        'id_lokasi', 
+        'kode_slot', 
+        'jenis_slot', 
+        'status_slot'
+    ];
 }

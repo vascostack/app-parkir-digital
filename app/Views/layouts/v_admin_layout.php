@@ -166,9 +166,12 @@
       <a href="<?= site_url('admin/dashboard') ?>" class="nav-item-custom <?= url_is('admin/dashboard') || url_is('admin') ? 'active' : '' ?>">
         <i class="bi bi-grid-1x2"></i> <span>Dashboard</span>
       </a>
-      <a href="<?= site_url('admin/tarif') ?>" class="nav-item-custom <?= url_is('admin/tarif') ? 'active' : '' ?>">
-        <i class="bi bi-cash-coin"></i> <span>Kelola Tarif</span>
+      
+      <!-- MENU KELOLA LOKASI DITAMBAHKAN DI SINI -->
+      <a href="<?= site_url('admin/lokasi') ?>" class="nav-item-custom <?= url_is('admin/lokasi*') ? 'active' : '' ?>">
+        <i class="bi bi-building"></i> <span>Kelola Lokasi</span>
       </a>
+
       <a href="<?= site_url('admin/petugas') ?>" class="nav-item-custom <?= url_is('admin/petugas') ? 'active' : '' ?>">
         <i class="bi bi-people"></i> <span>Kelola Petugas</span>
       </a>
