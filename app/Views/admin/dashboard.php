@@ -108,20 +108,20 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php if(!empty($terakhir_keluar)): ?>
-                            <?php foreach($terakhir_keluar as $tk): ?>
-                            <tr>
-                                <td class="fw-bold text-navy-dark"><?= $tk['no_polisi'] ?></td>
-                                <td>
-                                    <?php if(strtolower($tk['jenis']) == 'mobil'): ?>
-                                        <span class="badge bg-primary bg-opacity-10 text-primary px-2.5 py-1.5"><i class="bi bi-car-front me-1"></i> Mobil</span>
-                                    <?php else: ?>
-                                        <span class="badge bg-success bg-opacity-10 text-success px-2.5 py-1.5"><i class="bi bi-scooter me-1"></i> Motor</span>
-                                    <?php endif; ?>
-                                </td>
-                                <td class="text-danger fw-semibold">Rp <?= number_format($tk['biaya'], 0, ',', '.') ?></td>
-                                <td class="text-muted small"><?= $tk['waktu'] ?></td>
-                            </tr>
+                        <?php if (!empty($terakhir_keluar)): ?>
+                            <?php foreach ($terakhir_keluar as $tk): ?>
+                                <tr>
+                                    <td class="fw-bold text-navy-dark"><?= $tk['no_polisi'] ?></td>
+                                    <td>
+                                        <?php if (strtolower($tk['jenis']) == 'mobil'): ?>
+                                            <span class="badge bg-primary bg-opacity-10 text-primary px-2.5 py-1.5"><i class="bi bi-car-front me-1"></i> Mobil</span>
+                                        <?php else: ?>
+                                            <span class="badge bg-success bg-opacity-10 text-success px-2.5 py-1.5"><i class="bi bi-scooter me-1"></i> Motor</span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td class="text-danger fw-semibold">Rp <?= number_format($tk['biaya'], 0, ',', '.') ?></td>
+                                    <td class="text-muted small"><?= $tk['waktu'] ?></td>
+                                </tr>
                             <?php endforeach; ?>
                         <?php else: ?>
                             <tr>
@@ -134,35 +134,7 @@
         </div>
     </div>
 
-    <!-- Menu Navigasi Cepat Admin -->
-    <div class="col-lg-4">
-        <div class="premium-card p-4 bg-white">
-            <h5 class="fw-bold text-navy-dark mb-4"><i class="bi bi-lightning-charge me-2 text-warning"></i> Menu Pintas Admin</h5>
-            <div class="d-grid gap-3">
-                <a href="<?= site_url('admin/tarif') ?>" class="btn btn-light text-start p-3 rounded-3 d-flex align-items-center justify-content-between border">
-                    <div>
-                        <strong class="d-block text-navy-dark">Kelola Tarif Parkir</strong>
-                        <small class="text-muted">Ubah biaya per jam mobil/motor</small>
-                    </div>
-                    <i class="bi bi-chevron-right text-muted"></i>
-                </a>
-                <a href="<?= site_url('admin/petugas') ?>" class="btn btn-light text-start p-3 rounded-3 d-flex align-items-center justify-content-between border">
-                    <div>
-                        <strong class="d-block text-navy-dark">Manajemen Petugas</strong>
-                        <small class="text-muted">Tambah, edit, atau hapus akun petugas</small>
-                    </div>
-                    <i class="bi bi-chevron-right text-muted"></i>
-                </a>
-                <a href="<?= site_url('admin/laporan') ?>" class="btn btn-light text-start p-3 rounded-3 d-flex align-items-center justify-content-between border">
-                    <div>
-                        <strong class="d-block text-navy-dark">Laporan Pendapatan</strong>
-                        <small class="text-muted">Cetak rekap & filter data parkir</small>
-                    </div>
-                    <i class="bi bi-chevron-right text-muted"></i>
-                </a>
-            </div>
-        </div>
-    </div>
+
 </div>
 
 <?= $this->endSection() ?>
@@ -171,78 +143,85 @@
 <?= $this->section('scripts') ?>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-document.addEventListener("DOMContentLoaded", function() {
-    
-    // Inisialisasi Data dari PHP dengan proteksi fallback array kosong jika null
-    const labelsRevenue = <?= !empty($chart_revenue_labels) ? $chart_revenue_labels : '["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"]' ?>;
-    const dataRevenue   = <?= !empty($chart_revenue_data) ? $chart_revenue_data : '[0, 0, 0, 0, 0, 0, 0]' ?>;
-    const dataMobil     = <?= $chart_veh_mobil ?? 0 ?>;
-    const dataMotor     = <?= $chart_veh_motor ?? 0 ?>;
+    document.addEventListener("DOMContentLoaded", function() {
 
-    // 1. Render Chart Line Tren Pendapatan
-    const canvasRevenue = document.getElementById('revenueChart');
-    if (canvasRevenue) {
-        new Chart(canvasRevenue.getContext('2d'), {
-            type: 'line',
-            data: {
-                labels: labelsRevenue,
-                datasets: [{
-                    label: 'Pendapatan (Rp)',
-                    data: dataRevenue,
-                    borderColor: '#22c55e',
-                    backgroundColor: 'rgba(34, 197, 94, 0.1)',
-                    borderWidth: 3,
-                    fill: true,
-                    tension: 0.3,
-                    pointBackgroundColor: '#22c55e'
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false }
+        // Inisialisasi Data dari PHP dengan proteksi fallback array kosong jika null
+        const labelsRevenue = <?= !empty($chart_revenue_labels) ? $chart_revenue_labels : '["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"]' ?>;
+        const dataRevenue = <?= !empty($chart_revenue_data) ? $chart_revenue_data : '[0, 0, 0, 0, 0, 0, 0]' ?>;
+        const dataMobil = <?= $chart_veh_mobil ?? 0 ?>;
+        const dataMotor = <?= $chart_veh_motor ?? 0 ?>;
+
+        // 1. Render Chart Line Tren Pendapatan
+        const canvasRevenue = document.getElementById('revenueChart');
+        if (canvasRevenue) {
+            new Chart(canvasRevenue.getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: labelsRevenue,
+                    datasets: [{
+                        label: 'Pendapatan (Rp)',
+                        data: dataRevenue,
+                        borderColor: '#22c55e',
+                        backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.3,
+                        pointBackgroundColor: '#22c55e'
+                    }]
                 },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            callback: function(value) {
-                                return 'Rp ' + value.toLocaleString('id-ID');
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return 'Rp ' + value.toLocaleString('id-ID');
+                                }
                             }
                         }
                     }
                 }
-            }
-        });
-    }
+            });
+        }
 
-    // 2. Render Chart Doughnut Rasio Kendaraan
-    const canvasVehicle = document.getElementById('vehicleChart');
-    if (canvasVehicle) {
-        new Chart(canvasVehicle.getContext('2d'), {
-            type: 'doughnut',
-            data: {
-                labels: ['Mobil', 'Motor'],
-                datasets: [{
-                    data: [dataMobil, dataMotor],
-                    backgroundColor: ['#3b82f6', '#10b981'],
-                    borderWidth: 2,
-                    hoverOffset: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: { boxWidth: 12, font: { size: 12 } }
+        // 2. Render Chart Doughnut Rasio Kendaraan
+        const canvasVehicle = document.getElementById('vehicleChart');
+        if (canvasVehicle) {
+            new Chart(canvasVehicle.getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Mobil', 'Motor'],
+                    datasets: [{
+                        data: [dataMobil, dataMotor],
+                        backgroundColor: ['#3b82f6', '#10b981'],
+                        borderWidth: 2,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 12,
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        }
                     }
                 }
-            }
-        });
-    }
-});
+            });
+        }
+    });
 </script>
 <?= $this->endSection() ?>

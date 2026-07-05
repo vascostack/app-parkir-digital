@@ -42,8 +42,6 @@ class CreateKendaraanTable extends Migration
         
         $this->forge->addKey('id_kendaraan', true);
         
-        // FIX: Ubah 'CASCADE' untuk aksi ON DELETE menjadi 'SET NULL'
-        // Parameter: addForeignKey(field_lokal, tabel_tujuan, field_tujuan, on_delete, on_update)
         $this->forge->addForeignKey('id_user', 'users', 'id_user', 'SET NULL', 'CASCADE');
         
         $this->forge->createTable('kendaraan');

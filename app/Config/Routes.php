@@ -4,7 +4,6 @@ use CodeIgniter\Router\RouteCollection;
 
 /** @var RouteCollection $routes */
 
-// 1. PINTU UTAMA / LANDING PAGE
 $routes->get('/', 'Home::index');
 
 // 2. ROUTE AUTHENTICATION (LOGIN, REGISTER, LOGOUT)
@@ -25,10 +24,6 @@ $routes->group('admin', ['filter' => 'roleFilter:admin'], function ($routes) {
     $routes->post('petugas/simpan', 'Admin::simpan_petugas');
     $routes->post('petugas/update', 'Admin::update_petugas');
     $routes->get('petugas/hapus/(:num)', 'Admin::hapus_petugas/$1');
-
-    // =================================================================
-    // TAMBAHAN RUTE UNTUK KELOLA LOKASI & SLOT
-    // =================================================================
     
     // Rute Master Lokasi (Gedung)
     $routes->get('lokasi', 'LokasiController::index');
@@ -43,7 +38,7 @@ $routes->group('admin', ['filter' => 'roleFilter:admin'], function ($routes) {
     $routes->get('lokasi/delete_slot/(:num)/(:num)', 'LokasiController::delete_slot/$1/$2');
 });
 
-// 4. GROUP KHUSUS PETUGAS (Diproteksi Filter Petugas & Mengarah ke Controller Tunggal Petugas)
+// 4. GROUP KHUSUS PETUGAS 
 $routes->group('petugas', ['filter' => 'roleFilter:petugas'], function ($routes) {
     $routes->get('dashboard', 'Petugas::index');
     $routes->get('masuk', 'Petugas::masuk');
@@ -62,13 +57,12 @@ $routes->group('petugas', ['filter' => 'roleFilter:petugas'], function ($routes)
     $routes->get('transaksi', 'Petugas::transaksi');
 });
 
-// 5. GROUP KHUSUS USER / PENGENDARA (Sudah Digabung & Rapi)
+// 5. GROUP KHUSUS USER ATAU PELANGGAN 
 $routes->group('user', ['filter' => 'roleFilter:user'], function ($routes) {
-    // Akses ke http://localhost:8080/user otomatis dilempar ke dashboard
     $routes->get('/', 'User\Dashboard::index');
     $routes->get('dashboard', 'User\Dashboard::index');
 
-    // Fitur Booking Slot (DIUPDATE DAN DITAMBAHKAN DI SINI)
+    // Fitur Booking Slot 
     $routes->get('booking', 'User\Booking::index');
     $routes->post('booking/process', 'User\Booking::process'); // Menggantikan booking/store
     $routes->get('booking/payment/(:num)', 'User\Booking::payment/$1');

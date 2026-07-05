@@ -96,4 +96,54 @@
     </div>
 </div>
 
+<!-- ========================================== -->
+<!-- MODAL EDIT SLOT (DITAMBAHKAN BIAR FUNGSI EDIT JALAN) -->
+<!-- ========================================== -->
+<?php if(!empty($slot)): ?>
+    <?php foreach($slot as $s): ?>
+    <div class="modal fade" id="modalEditSlot<?= $s['id_slot'] ?>" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header bg-primary text-white">
+                    <h6 class="modal-title"><i class="bi bi-pencil-square me-2"></i>Edit Slot Parkir</h6>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <form action="<?= site_url('admin/lokasi/update_slot') ?>" method="post">
+                    <?= csrf_field() ?>
+                    <!-- Hidden inputs untuk rute update & redirect -->
+                    <input type="hidden" name="id_slot" value="<?= $s['id_slot'] ?>">
+                    <input type="hidden" name="id_lokasi" value="<?= $lokasi['id_lokasi'] ?>">
+                    
+                    <div class="modal-body p-3">
+                        <div class="mb-2">
+                            <label class="form-label small fw-semibold">Kode Slot</label>
+                            <input type="text" class="form-control form-control-sm" name="kode_slot" value="<?= esc($s['kode_slot']) ?>" required>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label small fw-semibold">Jenis Kendaraan</label>
+                            <select class="form-select form-select-sm" name="jenis_slot" required>
+                                <option value="mobil" <?= $s['jenis_slot'] == 'mobil' ? 'selected' : '' ?>>Mobil</option>
+                                <option value="motor" <?= $s['jenis_slot'] == 'motor' ? 'selected' : '' ?>>Motor</option>
+                            </select>
+                        </div>
+                        <div class="mb-1">
+                            <label class="form-label small fw-semibold">Status Ketersediaan</label>
+                            <select class="form-select form-select-sm" name="status_slot" required>
+                                <option value="tersedia" <?= $s['status_slot'] == 'tersedia' ? 'selected' : '' ?>>Tersedia (Hijau)</option>
+                                <option value="dipesan" <?= $s['status_slot'] == 'dipesan' ? 'selected' : '' ?>>Dipesan (Kuning)</option>
+                                <option value="terisi" <?= $s['status_slot'] == 'terisi' ? 'selected' : '' ?>>Terisi (Merah)</option>
+                                <option value="maintenance" <?= $s['status_slot'] == 'maintenance' ? 'selected' : '' ?>>Maintenance (Abu-abu)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer bg-light p-2">
+                        <button type="submit" class="btn btn-sm btn-primary w-100">Simpan Perubahan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <?php endforeach; ?>
+<?php endif; ?>
+
 <?= $this->endSection() ?>

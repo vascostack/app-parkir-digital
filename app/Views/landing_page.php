@@ -642,7 +642,7 @@
                 Kapan Saja
             </h1>
             <p class="hero-desc">
-                Sistem reservasi slot parkir gedung modern — visual, aman, dan cepat. Amankan posisi kendaraan Anda sebelum tiba di lokasi.
+                Sistem reservasi slot parkir gedung modern visual, aman, dan cepat. Amankan posisi kendaraan Anda sebelum tiba di lokasi.
             </p>
             <div class="hero-actions">
                 <a href="/register" class="btn-primary-hero">
@@ -688,7 +688,7 @@
     <div class="section-header">
         <p class="section-eyebrow">Mengapa Prime Parking</p>
         <h2 class="section-title">Semua yang Anda Butuhkan dalam Satu Platform</h2>
-        <p class="section-sub">Kemudahan pengelolaan parkir digital — dari pemilihan slot hingga pembayaran — dalam satu genggaman.</p>
+        <p class="section-sub">Kemudahan pengelolaan parkir digital dari pemilihan slot hingga pembayaran dalam satu genggaman.</p>
     </div>
     <div class="features-grid">
         <div class="feature-card">
@@ -699,7 +699,7 @@
         <div class="feature-card">
             <div class="feature-icon-wrap"><i class="fas fa-qrcode"></i></div>
             <div class="feature-card-title">Check-in Instan via QR</div>
-            <p class="feature-card-desc">Tunjukkan QR Code booking Anda ke petugas pos gerbang — proses masuk hanya butuh hitungan detik, tanpa antre panjang.</p>
+            <p class="feature-card-desc">Tunjukkan QR Code booking Anda ke petugas pos gerbang proses masuk hanya butuh hitungan detik, tanpa antre panjang.</p>
         </div>
         <div class="feature-card">
             <div class="feature-icon-wrap"><i class="fas fa-wallet"></i></div>
@@ -742,7 +742,7 @@
         <p class="cta-sub">Bergabung dengan ribuan pengemudi yang telah merasakan kemudahan Prime Parking setiap hari.</p>
         <div class="cta-actions">
             <a href="/register" class="btn-cta-main">
-                <i class="fas fa-user-plus"></i> Daftar Sekarang — Gratis
+                <i class="fas fa-user-plus"></i> Daftar Sekarang Gratis
             </a>
             <a href="/login" class="btn-cta-outline">Sudah punya akun? Masuk</a>
         </div>
