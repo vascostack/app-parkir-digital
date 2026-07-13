@@ -10,5 +10,7 @@ class UsersModel extends Model
     protected $primaryKey       = 'id_user';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
-    protected $allowedFields    = ['nama', 'email', 'password', 'no_hp', 'role', 'status'];
+    
+    // Tambahkan jadwal, eic_manager, dan jabatan di sini agar bisa disimpan ke database
+    protected $allowedFields    = ['nama', 'email', 'password', 'no_hp', 'role', 'status', 'jadwal', 'eic_manager', 'jabatan'];
 }
