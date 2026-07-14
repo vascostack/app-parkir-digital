@@ -6,7 +6,7 @@ use CodeIgniter\Router\RouteCollection;
 
 $routes->get('/', 'Home::index');
 
-// 2. ROUTE AUTHENTICATION (LOGIN, REGISTER, LOGOUT)
+// ROUTE AUTHENTICATION 
 $routes->get('login', 'Auth::login');
 $routes->post('login/attempt', 'Auth::attemptLogin');
 $routes->get('register', 'Auth::register');
@@ -16,29 +16,29 @@ $routes->get('logout', 'Auth::logout');
 $routes->group('admin', ['filter' => 'roleFilter:admin'], function ($routes) {
     $routes->get('dashboard', 'Admin::dashboard');
     
-    // RUTE TARIF SUDAH DIHAPUS DARI SINI
-    
     $routes->get('laporan', 'Admin::laporan');
     $routes->get('laporan/cetak', 'Admin::cetak_laporan');
+    $routes->get('laporan/export', 'Admin::export_excel');
+
     $routes->get('petugas', 'Admin::petugas');
     $routes->post('petugas/simpan', 'Admin::simpan_petugas');
     $routes->post('petugas/update', 'Admin::update_petugas');
     $routes->get('petugas/hapus/(:num)', 'Admin::hapus_petugas/$1');
     
-    // Rute Master Lokasi (Gedung)
+    // ROUTE LOKASI
     $routes->get('lokasi', 'LokasiController::index');
     $routes->post('lokasi/store', 'LokasiController::store');
     $routes->post('lokasi/update', 'LokasiController::update');
     $routes->get('lokasi/delete/(:num)', 'LokasiController::delete/$1');
     
-    // Rute Detail Slot
+    // RUTE DETAIL SLOT
     $routes->get('lokasi/slot/(:num)', 'LokasiController::slot/$1');
     $routes->post('lokasi/store_slot', 'LokasiController::store_slot');
     $routes->post('lokasi/update_slot', 'LokasiController::update_slot');
     $routes->get('lokasi/delete_slot/(:num)/(:num)', 'LokasiController::delete_slot/$1/$2');
 });
 
-// 4. GROUP KHUSUS PETUGAS 
+// 4. GROUP ROUTE PETUGAS 
 $routes->group('petugas', ['filter' => 'roleFilter:petugas'], function ($routes) {
     $routes->get('dashboard', 'Petugas::index');
     $routes->get('masuk', 'Petugas::masuk');
@@ -57,7 +57,7 @@ $routes->group('petugas', ['filter' => 'roleFilter:petugas'], function ($routes)
     $routes->get('transaksi', 'Petugas::transaksi');
 });
 
-// 5. GROUP KHUSUS USER ATAU PELANGGAN 
+// 5. GROUP ROUTE KHUSUS USER 
 $routes->group('user', ['filter' => 'roleFilter:user'], function ($routes) {
     $routes->get('/', 'User\Dashboard::index');
     $routes->get('dashboard', 'User\Dashboard::index');
@@ -68,7 +68,7 @@ $routes->group('user', ['filter' => 'roleFilter:user'], function ($routes) {
     $routes->get('booking/payment/(:num)', 'User\Booking::payment/$1');
     $routes->post('booking/pay-process', 'User\Booking::payProcess');
 
-    // Fitur Kelola Kendaraan
+    // ROUTE KELOLA KENDARAAN USER
     $routes->get('vehicles', 'User\Vehicles::index');
     $routes->post('vehicles/store', 'User\Vehicles::store');
 

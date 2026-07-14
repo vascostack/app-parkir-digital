@@ -4,14 +4,13 @@ namespace App\Controllers\User;
 
 use App\Controllers\BaseController;
 
-// Namespace resmi Endroid/QrCode Versi 6 (Gaya SVG Anti-GD)
 use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Color\Color;
-use Endroid\QrCode\Writer\SvgWriter; // <--- Diubah ke SvgWriter
+use Endroid\QrCode\Writer\SvgWriter; 
 
 class Booking extends BaseController
 {
-    // 1. MENAMPILKAN HALAMAN UTAMA BOOKING SLOT
+    // halaman utama booking slot
     public function index()
     {
         $id_user = session()->get('id_user');
@@ -27,7 +26,7 @@ class Booking extends BaseController
         return view('user/booking', $data);
     }
 
-    // 2. MEMPROSES FORM DATA INPUT BOOKING KE DATABASE
+    // form data input booking
     public function process()
     {
         $id_user = session()->get('id_user');
@@ -63,7 +62,7 @@ class Booking extends BaseController
         // Ambil ID reservasi yang baru saja disimpan
         $id_reservasi = $db->insertID();
 
-        // Update status_slot di tabel slot_parkir menjadi 'dipesan'
+        // Update status_slot di tabel slot_parkir 
         $db->table('slot_parkir')->where('id_slot', $id_slot)->update([
             'status_slot' => 'dipesan'
         ]);
@@ -77,7 +76,6 @@ class Booking extends BaseController
         return redirect()->to('/user/booking/payment/' . $id_reservasi);
     }
 
-    // 3. MENAMPILKAN HALAMAN SCAN QRIS LOKAL (STRUKTUR SVG)
     public function payment($id_reservasi)
     {
         $db = \Config\Database::connect();
@@ -94,10 +92,10 @@ class Booking extends BaseController
             return redirect()->to('/user/booking')->with('error', 'Data booking tidak ditemukan.');
         }
 
-        // LOGIC GENERATE QR CODE LOKAL
+        // generete QR
         $qrContent = "PARKIR-DIGITAL-VASCO-" . $reservasi['id_reservasi'] . "-TOTAL-" . $reservasi['biaya_booking'];
 
-        // Pengaturan properti QR Code v6 tetap sama
+        // Pengaturan properti QR 
         $qrCode = new QrCode(
             data: $qrContent,
             size: 250,
@@ -106,7 +104,7 @@ class Booking extends BaseController
             backgroundColor: new Color(255, 255, 255) // Warna Putih background
         );
         
-        // Panggil SvgWriter (Aman tanpa ekstensi GD)
+        // Panggil SvgWriter 
         $writer = new SvgWriter();
         
         // Jalankan proses render
@@ -120,7 +118,6 @@ class Booking extends BaseController
         return view('user/payment', $data);
     }
 
-    // 4. MEMPROSES SIMULASI BAYAR (LANGSUNG LUNAS)
     public function payProcess()
     {
         $id_reservasi = $this->request->getPost('id_reservasi');

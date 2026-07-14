@@ -16,18 +16,18 @@ class Profile extends BaseController
 
     public function index()
     {
-        // Ambil ID user dari session login (pastikan key session sesuai dengan sistem login lu, misal 'id_user' atau 'id')
+        // Ambil ID user dari session login 
         $userId = session()->get('id_user') ?? session()->get('id');
 
-        // Jika user ternyata belum login, lempar ke halaman login biar ga error kosong
+        // Jika user ternyata belum login, lempar ke halaman login 
         if (!$userId) {
             return redirect()->to('/login'); 
         }
 
-        // Ambil data user asli dari database
+        // Ambil data user dari database
         $user = $this->userModel->find($userId);
 
-        // Jika data user tidak ketemu di DB, kasih fallback array data kosong biar view-nya ga crash
+        // Jika data user tidak ketemu di DB, kasih fallback array data kosong 
         if (!$user) {
             $user = [
                 'nama'  => 'Pengguna',

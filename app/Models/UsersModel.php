@@ -11,6 +11,6 @@ class UsersModel extends Model
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     
-    // Tambahkan jadwal, eic_manager, dan jabatan di sini agar bisa disimpan ke database
+
     protected $allowedFields    = ['nama', 'email', 'password', 'no_hp', 'role', 'status', 'jadwal', 'eic_manager', 'jabatan'];
 }

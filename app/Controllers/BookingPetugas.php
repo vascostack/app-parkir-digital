@@ -6,18 +6,17 @@ use App\Controllers\BaseController;
 
 class BookingPetugas extends BaseController
 {
-    // 1. MENAMPILKAN HALAMAN MANAGEMENT DAFTAR RESERVASI USER (YANG BELUM CHECK-IN)
+    
     public function index()
     {
         $db = \Config\Database::connect();
 
-        // FIX PERFEKSI: Tambahkan filter where agar data yang SUDAH check-in otomatis hilang dari tabel monitoring booking
         $daftar_booking = $db->table('reservasi')
             ->select('reservasi.*, users.nama as nama_user, slot_parkir.kode_slot, kendaraan.no_polisi, kendaraan.jenis')
             ->join('users', 'users.id_user = reservasi.id_user', 'left')
             ->join('slot_parkir', 'slot_parkir.id_slot = reservasi.id_slot', 'left')
             ->join('kendaraan', 'kendaraan.id_kendaraan = reservasi.id_kendaraan', 'left')
-            ->where('reservasi.status_reservasi', 'dibooking') // <-- Kunci perfeksi fitur di sini, Bro!
+            ->where('reservasi.status_reservasi', 'dibooking') 
             ->orderBy('reservasi.waktu_kedatangan', 'ASC')
             ->get()->getResultArray();
 
@@ -29,7 +28,6 @@ class BookingPetugas extends BaseController
         return view('petugas/booking_masuk', $data);
     }
 
-    // 2. TOMBOL AKSI: VALIDASI CHECK-IN & HITUNG DENDA JIKA TELAT
     public function proses_checkin_manual($id_reservasi)
     {
         $db = \Config\Database::connect();
@@ -46,14 +44,14 @@ class BookingPetugas extends BaseController
             return redirect()->to('/petugas/bookingpetugas')->with('error', 'User ini sudah melakukan check-in sebelumnya.');
         }
 
-        // LOGIKA DENDA KETERLAMBATAN (Bandingkan waktu sekarang dengan waktu_expired)
+        // LOGIKA DENDA KETERLAMBATAN 
         $waktu_sekarang = time();
         $waktu_expired  = strtotime($reservasi['waktu_expired']);
         $denda          = 0;
         $pesan_sukses   = 'User berhasil Check-In masuk ke Slot: ' . $reservasi['id_slot'];
 
         if ($waktu_sekarang > $waktu_expired) {
-            $denda = 15000; // Mengatur denda Rp 15.000 jika telat datang
+            $denda = 15000; 
             $pesan_sukses = 'Check-In Berhasil! TAPI USER TERLAMBAT. Kenakan denda parkir sebesar Rp 15.000!';
         }
 
@@ -68,7 +66,7 @@ class BookingPetugas extends BaseController
             'waktu_masuk'      => date('Y-m-d H:i:s'),
             'waktu_keluar'     => null,
             'durasi'           => null,
-            'total_biaya'      => $denda, // Nominal denda masuk sebagai total biaya awal kendaraan masuk
+            'total_biaya'      => $denda, 
             'status_transaksi' => 'masuk'
         ]);
 

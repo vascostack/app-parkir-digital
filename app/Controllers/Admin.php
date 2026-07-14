@@ -26,14 +26,14 @@ class Admin extends BaseController
         $pendapatan_hari_ini = 0;
         $total_masuk_hari_ini = 0;
         $sedang_parkir = 0;
-        
+
         $jumlah_mobil = 0;
         $jumlah_motor = 0;
 
         $tren_7_hari = [];
         for ($i = 6; $i >= 0; $i--) {
             $tgl = date('Y-m-d', strtotime("-$i days"));
-            $label_tgl = date('d M', strtotime($tgl)); 
+            $label_tgl = date('d M', strtotime($tgl));
             $tren_7_hari[$tgl] = [
                 'label' => $label_tgl,
                 'total' => 0
@@ -276,5 +276,103 @@ class Admin extends BaseController
         ];
 
         return view('admin/cetak_laporan', $data);
+    }
+    // =====================================================================
+    // EXPORT EXCEL (Tambahan baru di bawah cetak_laporan)
+    // =====================================================================
+    public function export_excel()
+    {
+        // 1. Ambil parameter tanggal dari URL (Metode GET, persis seperti cetak_laporan)
+        $start_date = $this->request->getGet('start_date') ?? date('Y-m-d', strtotime('-7 days'));
+        $end_date   = $this->request->getGet('end_date') ?? date('Y-m-d');
+
+        // 2. Ambil data dari TransaksiModel bawaan project-mu
+        $data_laporan = $this->transaksiModel->getLaporan($start_date, $end_date);
+
+        // 3. Inisialisasi PhpSpreadsheet
+        $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // --- STYLING & HEADER ATAS ---
+        $sheet->setCellValue('A1', 'PRIME PARKING');
+        $sheet->setCellValue('A2', 'Laporan Pendapatan Transaksi Selesai');
+        $sheet->setCellValue('A3', 'Periode: ' . date('d/m/Y', strtotime($start_date)) . ' s/d ' . date('d/m/Y', strtotime($end_date)));
+
+        $sheet->getStyle('A1')->getFont()->setSize(14)->setBold(true);
+        $sheet->getStyle('A2')->getFont()->setSize(11)->setBold(true);
+        $sheet->getStyle('A3')->getFont()->setItalic(true);
+
+        // Header Tabel Excel (Disamakan dengan kolom di cetak PDF-mu)
+        $sheet->setCellValue('A5', 'No');
+        $sheet->setCellValue('B5', 'ID Transaksi');
+        $sheet->setCellValue('C5', 'Waktu Keluar');
+        $sheet->setCellValue('D5', 'Plat Nomor');
+        $sheet->setCellValue('E5', 'Tipe Kendaraan');
+        $sheet->setCellValue('F5', 'Petugas (Kasir)');
+        $sheet->setCellValue('G5', 'Total Bayar');
+
+        // Warnai header tabel abu-abu biar elegan dan tebal
+        $sheet->getStyle('A5:G5')->getFont()->setBold(true);
+        $sheet->getStyle('A5:G5')->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB('EAEAEA');
+
+        // --- LOOPING DATA ---
+        $row = 6;
+        $no  = 1;
+        $total_pendapatan = 0;
+
+        if (!empty($data_laporan)) {
+            foreach ($data_laporan as $row_data) {
+                $sheet->setCellValue('A' . $row, $no++);
+                $sheet->setCellValue('B' . $row, '#' . $row_data['id_transaksi']);
+                $sheet->setCellValue('C' . $row, date('d/m/Y H:i', strtotime($row_data['waktu_keluar'])));
+                $sheet->setCellValue('D' . $row, strtoupper($row_data['no_polisi']));
+                $sheet->setCellValue('E' . $row, ucfirst($row_data['jenis']));
+                $sheet->setCellValue('F' . $row, $row_data['nama_petugas']);
+                $sheet->setCellValue('G' . $row, $row_data['biaya']);
+
+                // Format kolom G jadi format angka/currency tanpa mata uang terikat (supaya bisa di-SUM otomatis di Excel)
+                $sheet->getStyle('G' . $row)->getNumberFormat()->setFormatCode('#,##0');
+
+                $total_pendapatan += $row_data['biaya'];
+                $row++;
+            }
+        } else {
+            $sheet->setCellValue('A' . $row, 'Tidak ada transaksi lunas pada rentang tanggal ini.');
+            $sheet->mergeCells("A{$row}:G{$row}");
+            $sheet->getStyle('A' . $row)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+            $row++;
+        }
+
+        // --- TOTAL PENDAPATAN ---
+        $sheet->setCellValue('A' . $row, 'Total Pendapatan :');
+        $sheet->mergeCells("A{$row}:F{$row}");
+        $sheet->getStyle('A' . $row)->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT);
+
+        $sheet->setCellValue('G' . $row, $total_pendapatan);
+        $sheet->getStyle('G' . $row)->getNumberFormat()->setFormatCode('#,##0');
+        $sheet->getStyle('A' . $row . ':G' . $row)->getFont()->setBold(true);
+
+        // --- ATUR TANDA TANGAN (Sama seperti PDF-mu) ---
+        $ttgRow = $row + 3;
+        $sheet->setCellValue('F' . $ttgRow, 'Dicetak pada: ' . date('d/m/Y H:i'));
+        $sheet->setCellValue('F' . ($ttgRow + 3), '( ......................................... )');
+        $sheet->setCellValue('F' . ($ttgRow + 4), 'Admin / Supervisor');
+        $sheet->getStyle('F' . ($ttgRow + 3))->getFont()->setBold(true);
+
+        // Auto width kolom agar tidak terpotong atau memunculkan error `###`
+        foreach (range('A', 'G') as $columnID) {
+            $sheet->getColumnDimension($columnID)->setAutoSize(true);
+        }
+
+        // --- CONFIG DOWNLOAD FILE ---
+        $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+        $filename = 'Laporan_Pendapatan_Parkir_' . $start_date . '_to_' . $end_date . '.xlsx';
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="' . $filename . '"');
+        header('Cache-Control: max-age=0');
+
+        $writer->save('php://output');
+        exit;
     }
 }

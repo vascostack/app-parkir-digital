@@ -12,7 +12,6 @@ class SlotParkirModel extends Model
     protected $returnType       = 'array';
     protected $useTimestamps    = false;
     
-    // Disesuaikan persis dengan kolom di database (tanpa id_slot karena auto increment)
     protected $allowedFields    = [
         'id_lokasi', 
         'kode_slot', 

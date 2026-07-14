@@ -8,14 +8,13 @@ class Dashboard extends BaseController
 {
     public function index()
     {
-        // Pastikan session user aman
         $id_user = session()->get('id_user');
         $db = \Config\Database::connect();
 
-        // Ambil data kendaraan user untuk ringkasan info widget (jika diperlukan)
+        // Ambil data kendaraan user untuk ringkasan info 
         $jumlah_kendaraan = $db->table('kendaraan')->where('id_user', $id_user)->countAllResults();
 
-        // Ambil riwayat reservasi terakhir milik user ini
+        // Ambil riwayat reservasi terakhir milik user 
         $riwayat_reservasi = $db->table('reservasi')
             ->join('slot_parkir', 'slot_parkir.id_slot = reservasi.id_slot')
             ->join('lokasi_parkir', 'lokasi_parkir.id_lokasi = slot_parkir.id_lokasi')
@@ -31,7 +30,6 @@ class Dashboard extends BaseController
             'reservasi_terakhir'=> $riwayat_reservasi
         ];
 
-        // Arahkan ke file view dashboard milik user kamu
         return view('user/dashboard', $data); 
     }
 }

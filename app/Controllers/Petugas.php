@@ -24,20 +24,20 @@ class Petugas extends BaseController
 
     public function index()
     {
-        // 1. Hitung Kendaraan di Lokasi (Status masih 'masuk')
+        // Hitung Kendaraan di Lokasi 
         $data['parked_count'] = $this->transaksiModel->where('status_transaksi', 'masuk')->countAllResults();
 
-        // 2. Hitung Total Transaksi Hari Ini (Berdasarkan tanggal hari ini)
+        // Hitung Total Transaksi Hari Ini 
         $data['today_transactions'] = $this->transaksiModel->where('DATE(waktu_masuk)', date('Y-m-d'))->countAllResults();
 
-        // 3. Hitung Pendapatan Hari Ini (Status 'selesai' dan tanggal hari ini)
+        // Hitung Pendapatan Hari Ini
         $today_income = $this->transaksiModel->selectSum('total_biaya')
             ->where('status_transaksi', 'selesai')
             ->where('DATE(waktu_masuk)', date('Y-m-d'))
             ->first();
         $data['today_income'] = $today_income['total_biaya'] ?? 0;
 
-        // 4. Ambil 5 Transaksi Terakhir (Join dengan tabel kendaraan)
+        // Ambil 5 Transaksi Terakhir 
         $data['recent_transactions'] = $this->transaksiModel
             ->select('transaksi.*, kendaraan.no_polisi')
             ->join('kendaraan', 'kendaraan.id_kendaraan = transaksi.id_kendaraan', 'left')
@@ -76,7 +76,6 @@ class Petugas extends BaseController
         $kendaraan = $this->kendaraanModel->where('no_polisi', strtoupper($no_polisi))->first();
 
         if (!$kendaraan) {
-            // Balikin ke null karena migrasi database barumu sudah di-refresh & support NULL
             $this->kendaraanModel->insert([
                 'id_user'   => null,
                 'no_polisi' => strtoupper($no_polisi),
@@ -89,7 +88,6 @@ class Petugas extends BaseController
             $id_kendaraan = $kendaraan['id_kendaraan'];
         }
 
-        // Antisipasi jika session id_user milik petugas kosong/habis, ganti default ke null atau ID petugas cadangan
         $id_petugas = session()->get('id_user') ?? null;
 
         $dataTransaksi = [
@@ -173,7 +171,6 @@ class Petugas extends BaseController
 
         $kendaraan = $this->kendaraanModel->find($transaksi['id_kendaraan']);
 
-        // --- LOGIKA PERHITUNGAN ---
         $waktu_masuk  = strtotime($transaksi['waktu_masuk']);
         $waktu_keluar = time();
         $selisih_detik = $waktu_keluar - $waktu_masuk;
@@ -182,7 +179,6 @@ class Petugas extends BaseController
         $tarif_per_jam = ($kendaraan['jenis'] === 'mobil') ? 5000 : 2000;
         $total_biaya   = $durasi_jam * $tarif_per_jam;
 
-        // --- UPDATE DATABASE ---
         $dataUpdate = [
             'status_transaksi' => 'selesai',
             'waktu_keluar'     => date('Y-m-d H:i:s', $waktu_keluar),
@@ -195,7 +191,6 @@ class Petugas extends BaseController
             $this->slotModel->update($transaksi['id_slot'], ['status_slot' => 'tersedia']);
         }
 
-        // --- KIRIM KE VIEW STRUK ---
         $data['transaksi'] = array_merge($transaksi, $dataUpdate);
         $data['no_polisi'] = $kendaraan['no_polisi'];
         $data['jenis']     = $kendaraan['jenis'];
@@ -229,8 +224,8 @@ class Petugas extends BaseController
         $results = [];
         foreach ($kendaraan as $row) {
             $results[] = [
-                'id'   => $row['id_kendaraan'], // ID unik untuk form
-                'text' => $row['no_polisi'] . ' (' . $row['jenis'] . ')' // Tampilan di dropdown
+                'id'   => $row['id_kendaraan'], 
+                'text' => $row['no_polisi'] . ' (' . $row['jenis'] . ')' 
             ];
         }
 

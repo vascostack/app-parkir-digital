@@ -33,7 +33,30 @@
                                 <span class="badge bg-danger bg-opacity-10 text-danger px-2 py-1 rounded-pill"><i class="bi bi-x-circle me-1"></i> Nonaktif</span>
                             <?php endif; ?>
                         </div>
-                        <p class="text-muted small mb-3"><i class="bi bi-geo-alt me-1"></i> <?= esc($l['alamat']) ?></p>
+                        
+                        <p class="text-muted small mb-2">
+                            <i class="bi bi-geo-alt me-1"></i>
+                            <?= esc($l['alamat']) ?>
+                        </p>
+
+                        <div class="mb-3">
+                            <small class="d-block">
+                                <strong>Kode Gedung :</strong>
+                                <?= esc($l['kode_gedung']) ?>
+                            </small>
+
+                            <small class="d-block">
+                                <strong>Penanggung Jawab :</strong>
+                                <span class="badge bg-primary bg-opacity-10 text-primary fw-semibold px-2 py-0.5 rounded text-capitalize">
+                                    <i class="bi bi-person-badge me-1"></i><?= esc($l['penanggung_jawab'] ?? 'Belum diatur') ?>
+                                </span>
+                            </small>
+
+                            <small class="d-block mt-1">
+                                <strong>Jam Operasional :</strong>
+                                <?= esc($l['jam_operasional']) ?>
+                            </small>
+                        </div>
 
                         <div class="row g-2 mb-4">
                             <div class="col-6">
@@ -52,7 +75,6 @@
 
                         <!-- Action Buttons -->
                         <div class="d-grid gap-2">
-                            <!-- Mengarahkan ke halaman kelola slot khusus gedung ini berdasarkan id_lokasi -->
                             <a href="<?= site_url('admin/lokasi/slot/' . $l['id_lokasi']) ?>" class="btn btn-outline-primary fw-semibold">
                                 <i class="bi bi-grid-3x3-gap me-1"></i> Kelola Slot (A01, C01)
                             </a>
@@ -85,9 +107,33 @@
             <form action="<?= site_url('admin/lokasi/store') ?>" method="post">
                 <div class="modal-body p-4">
                     <div class="mb-3">
+                        <label class="form-label fw-semibold">Kode Gedung</label>
+                        <input type="text" class="form-control" name="kode_gedung" placeholder="Contoh: GD-01" required>
+                    </div>
+
+                    <div class="mb-3">
                         <label class="form-label fw-semibold">Nama Gedung / Lokasi</label>
                         <input type="text" class="form-control" name="nama_lokasi" placeholder="Contoh: Gedung Utama" required>
                     </div>
+
+                    <!-- PENGATURAN DROPDOWN DI MODAL TAMBAH -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Penanggung Jawab Gedung</label>
+                        <select class="form-select text-capitalize" name="penanggung_jawab" required>
+                            <option value="">-- Pilih Petugas --</option>
+                            <?php if (!empty($list_petugas)): ?>
+                                <?php foreach ($list_petugas as $p): ?>
+                                    <option value="<?= esc($p['nama']) ?>"><?= esc($p['nama']) ?> (<?= esc($p['role']) ?>)</option>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Jam Operasional</label>
+                        <input type="text" class="form-control" name="jam_operasional" placeholder="07.00 - 22.00" required>
+                    </div>
+
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Alamat</label>
                         <textarea class="form-control" name="alamat" rows="2" placeholder="Detail alamat..." required></textarea>
@@ -115,9 +161,7 @@
     </div>
 </div>
 
-<!-- ========================================== -->
-<!-- MODAL EDIT LOKASI (DITAMBAHKAN BIAR FUNGSI EDIT JALAN) -->
-<!-- ========================================== -->
+<!-- MODAL EDIT LOKASI -->
 <?php if (!empty($lokasi)): ?>
     <?php foreach ($lokasi as $l): ?>
         <div class="modal fade" id="modalEdit<?= $l['id_lokasi'] ?>" tabindex="-1" aria-hidden="true">
@@ -129,14 +173,39 @@
                     </div>
                     <form action="<?= site_url('admin/lokasi/update') ?>" method="post">
                         <?= csrf_field() ?>
-                        <!-- Hidden ID Lokasi untuk target update -->
                         <input type="hidden" name="id_lokasi" value="<?= $l['id_lokasi'] ?>">
 
                         <div class="modal-body p-4">
                             <div class="mb-3">
-                                <label class="form-label fw-semibold">Nama Gedung / Lokasi</label>
-                                <input type="text" class="form-control" name="nama_lokasi" value="<?= esc($l['nama_lokasi']) ?>" required>
+                                <label class="form-label fw-semibold">Kode Gedung</label>
+                                <input type="text" class="form-control" name="kode_gedung" value="<?= esc($l['kode_gedung']) ?>" placeholder="Contoh: GD-01" required>
                             </div>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Nama Gedung / Lokasi</label>
+                                <input type="text" class="form-control" name="nama_lokasi" value="<?= esc($l['nama_lokasi']) ?>" placeholder="Contoh: Gedung Utama" required>
+                            </div>
+
+                            <!-- PENGATURAN DROPDOWN DI MODAL EDIT -->
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Penanggung Jawab Gedung</label>
+                                <select class="form-select text-capitalize" name="penanggung_jawab" required>
+                                    <option value="">-- Pilih Petugas --</option>
+                                    <?php if (!empty($list_petugas)): ?>
+                                        <?php foreach ($list_petugas as $p): ?>
+                                            <option value="<?= esc($p['nama']) ?>" <?= ($l['penanggung_jawab'] == $p['nama']) ? 'selected' : '' ?>>
+                                                <?= esc($p['nama']) ?> (<?= esc($p['role']) ?>)
+                                            </option>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-semibold">Jam Operasional</label>
+                                <input type="text" class="form-control" name="jam_operasional" value="<?= esc($l['jam_operasional']) ?>" placeholder="07.00 - 22.00" required>
+                            </div>
+
                             <div class="mb-3">
                                 <label class="form-label fw-semibold">Alamat</label>
                                 <textarea class="form-control" name="alamat" rows="2" required><?= esc($l['alamat']) ?></textarea>

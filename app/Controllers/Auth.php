@@ -17,11 +17,11 @@ class Auth extends BaseController
 
     public function login()
     {
-        // Jika sudah login, tendang ke dashboard masing-masing
+        // Jika sudah login, tendang ke dashboard masing masing
         if (session()->get('logged_in')) {
             return $this->redirectByRole(session()->get('role'));
         }
-        return view('auth/login'); // Sesuai dengan struktur folder views Anda
+        return view('auth/login'); 
     }
 
     public function attemptLogin()
@@ -49,7 +49,7 @@ class Auth extends BaseController
                 ];
                 session()->set($sessionData);
 
-                // Redirect sesuai role
+                // redirect sesuai role
                 return $this->redirectByRole($user['role']);
             }
         }
@@ -79,7 +79,7 @@ class Auth extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        // Simpan data (Role otomatis 'user' untuk pendaftar lewat web)
+        // Simpan data 
         $this->userModel->save([
             'nama'     => $this->request->getPost('nama'),
             'email'    => $this->request->getPost('email'),

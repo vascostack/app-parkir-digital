@@ -29,7 +29,7 @@ class Vehicles extends BaseController
 
     public function store()
     {
-        // Fungsi ini untuk memproses form tambah kendaraan ($routes->post('vehicles/store', 'User\Booking::store' / 'User\Vehicles::store'))
+        // Fungsi ini untuk memproses form tambah kendaraan 
         $id_user = session()->get('id_user');
 
         $db = \Config\Database::connect();
@@ -38,7 +38,7 @@ class Vehicles extends BaseController
             'id_user'    => $id_user,
             'no_polisi'  => strtoupper($this->request->getPost('no_polisi')),
             'merek'      => $this->request->getPost('merek'),
-            'jenis'      => $this->request->getPost('jenis'), // 'mobil' atau 'motor' sesuai enum/kebutuhan UI
+            'jenis'      => $this->request->getPost('jenis'),
         ];
 
         $db->table('kendaraan')->insert($dataInsert);

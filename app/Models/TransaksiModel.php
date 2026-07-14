@@ -10,20 +10,17 @@ class TransaksiModel extends Model
     protected $primaryKey       = 'id_transaksi';
     protected $useAutoIncrement = true;
     protected $allowedFields    = [
-        'id_reservasi',    // sesuaikan jika di DB namamu id_booking, gunakan id_booking
+        'id_reservasi',    
         'id_kendaraan', 
         'id_slot', 
         'id_petugas', 
         'waktu_masuk', 
         'waktu_keluar', 
-        'durasi',          // HARUS ADA, ini yang kita pakai buat hitung waktu
+        'durasi',         
         'total_biaya', 
-        'status_transaksi' // HARUS ADA, ini yang kita pakai buat filter dashboard
+        'status_transaksi' 
     ];
 
-    // ====================================================================
-    // TAMBAHAN BARU: Fungsi untuk mengambil data laporan (Filter & Cetak)
-    // ====================================================================
     public function getLaporan($start_date, $end_date)
     {
         return $this->select('transaksi.id_transaksi, transaksi.waktu_keluar, transaksi.total_biaya as biaya, kendaraan.no_polisi, kendaraan.jenis, users.nama as nama_petugas')

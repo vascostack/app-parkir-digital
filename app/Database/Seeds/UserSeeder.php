@@ -29,7 +29,6 @@ class UserSeeder extends Seeder
             ]
         ];
 
-        // Masukkan data batch ke tabel users
         $this->db->table('users')->insertBatch($data);
     }
 }
