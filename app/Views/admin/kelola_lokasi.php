@@ -13,11 +13,36 @@
     </button>
 </div>
 
+<!-- ==================== TAMBAHAN: FILTER GEDUNG ==================== -->
+<div class="row g-3 mb-4">
+    <div class="col-12 col-md-6 col-lg-4">
+        <div class="input-group">
+            <span class="input-group-text bg-white border-end-0 text-muted">
+                <i class="bi bi-search"></i>
+            </span>
+            <input type="text" id="filterCari" class="form-control border-start-0 ps-0" placeholder="Cari nama atau kode gedung...">
+        </div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-3">
+        <select id="filterStatus" class="form-select">
+            <option value="semua">-- Semua Status --</option>
+            <option value="aktif">Aktif</option>
+            <option value="nonaktif">Nonaktif</option>
+        </select>
+    </div>
+</div>
+<!-- ================================================================= -->
+
 <!-- ROW DAFTAR LOKASI -->
-<div class="row g-4">
+<div class="row g-4" id="daftarGedungContainer">
     <?php if (!empty($lokasi)): ?>
         <?php foreach ($lokasi as $l): ?>
-            <div class="col-12 col-md-6 col-xl-4">
+            <!-- Ditambahkan data-attributes untuk kebutuhan filtering JavaScript -->
+            <div class="col-12 col-md-6 col-xl-4 item-gedung" 
+                 data-nama="<?= strtolower(esc($l['nama_lokasi'])) ?>" 
+                 data-kode="<?= strtolower(esc($l['kode_gedung'])) ?>" 
+                 data-status="<?= esc($l['status']) ?>">
+                 
                 <div class="premium-card h-100 overflow-hidden" style="border: 1px solid rgba(0,0,0,0.05); border-radius: 12px; transition: all 0.3s ease;">
                     <!-- Header Card dengan Gambar/Warna -->
                     <div class="bg-light d-flex align-items-center justify-content-center" style="height: 120px; border-bottom: 1px solid rgba(0,0,0,0.05);">
@@ -94,6 +119,13 @@
             <p class="text-muted small">Silakan klik tombol Tambah Lokasi Baru untuk memulai.</p>
         </div>
     <?php endif; ?>
+
+    <!-- Alert internal jika hasil pencarian filter kosong -->
+    <div id="filterKosongAlert" class="col-12 text-center py-5 d-none">
+        <i class="bi bi-building-exclamation text-muted" style="font-size: 3rem; opacity: 0.5;"></i>
+        <h5 class="text-muted mt-2">Gedung tidak ditemukan</h5>
+        <p class="text-muted small">Kata kunci atau status yang Anda filter tidak cocok dengan data manapun.</p>
+    </div>
 </div>
 
 <!-- MODAL TAMBAH LOKASI -->
@@ -116,7 +148,6 @@
                         <input type="text" class="form-control" name="nama_lokasi" placeholder="Contoh: Gedung Utama" required>
                     </div>
 
-                    <!-- PENGATURAN DROPDOWN DI MODAL TAMBAH -->
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Penanggung Jawab Gedung</label>
                         <select class="form-select text-capitalize" name="penanggung_jawab" required>
@@ -186,7 +217,6 @@
                                 <input type="text" class="form-control" name="nama_lokasi" value="<?= esc($l['nama_lokasi']) ?>" placeholder="Contoh: Gedung Utama" required>
                             </div>
 
-                            <!-- PENGATURAN DROPDOWN DI MODAL EDIT -->
                             <div class="mb-3">
                                 <label class="form-label fw-semibold">Penanggung Jawab Gedung</label>
                                 <select class="form-select text-capitalize" name="penanggung_jawab" required>
@@ -241,5 +271,52 @@
         </div>
     <?php endforeach; ?>
 <?php endif; ?>
+
+<!-- ==================== TAMBAHAN: LOGIC JAVASCRIPT FILTER ==================== -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const inputCari = document.getElementById('filterCari');
+    const selectStatus = document.getElementById('filterStatus');
+    const cardsGedung = document.querySelectorAll('.item-gedung');
+    const alertKosong = document.getElementById('filterKosongAlert');
+
+    function jalankanFilter() {
+        const kataKunci = inputCari.value.toLowerCase().trim();
+        const statusDipilih = selectStatus.value;
+        let adaDataKecocokan = false;
+
+        cardsGedung.forEach(card => {
+            const namaGedung = card.getAttribute('data-nama');
+            const kodeGedung = card.getAttribute('data-kode');
+            const statusGedung = card.getAttribute('data-status');
+
+            // Cek kondisi pencarian teks (mencakup kode maupun nama)
+            const cocokTeks = namaGedung.includes(kataKunci) || kodeGedung.includes(kataKunci);
+            
+            // Cek kondisi filter status
+            const cocokStatus = (statusDipilih === 'semua') || (statusGedung === statusDipilih);
+
+            if (cocokTeks && cocokStatus) {
+                card.classList.remove('d-none');
+                adaDataKecocokan = true;
+            } else {
+                card.classList.add('d-none');
+            }
+        });
+
+        // Tampilkan feedback visual jika hasil pencarian nihil
+        if (!adaDataKecocokan && cardsGedung.length > 0) {
+            alertKosong.classList.remove('d-none');
+        } else {
+            alertKosong.classList.add('d-none');
+        }
+    }
+
+    // Event listener saat pengguna mengetik atau mengubah opsi dropdown
+    inputCari.addEventListener('input', jalankanFilter);
+    selectStatus.addEventListener('change', jalankanFilter);
+});
+</script>
+<!-- ============================================================================ -->
 
 <?= $this->endSection() ?>
